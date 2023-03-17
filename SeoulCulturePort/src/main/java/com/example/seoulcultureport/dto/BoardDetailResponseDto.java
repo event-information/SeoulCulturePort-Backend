@@ -1,5 +1,7 @@
 package com.example.seoulcultureport.dto;
 
+import com.example.seoulcultureport.entity.Board;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,6 +27,17 @@ public class BoardDetailResponseDto {
     private String endDate;
     @Column(nullable = false)
     private String contents;
+
+    public BoardDetailResponseDto(Board board) {
+        this.id = board.getId();
+        this.title = board.getTitle();
+        this.image = board.getImage();
+        this.classify = board.getClassify();
+        this.region = board.getRegion();
+        this.location = board.getLocation();
+        this.startDate = board.getStartDate();
+        this.endDate = board.getEndDate();
+    }
 
 }
 //{
