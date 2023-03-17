@@ -1,4 +1,8 @@
 package com.example.seoulcultureport.repository;
 
-public interface UserRepository {
+import com.example.seoulcultureport.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface UserRepository extends JpaRepository<User, Long> {
+
 }
