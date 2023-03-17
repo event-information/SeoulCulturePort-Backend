@@ -15,22 +15,22 @@ public class BoardController {
 
     // 글생성
     @PostMapping("/")
-    public ResponseEntity<BoardResponseDto> writePost(@RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ResponseEntity<BoardResponseDto> writeBoard(@RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         BoardDetailResponseDto response = boardService.writeBoard(boardRequestDto, userDetails.getUser());
         return new ResponseEntity.ok(new BoardResponseDto (200,"success"));
     }
 
     // 내 게시글 수정
      @PutMapping("/{id}")
-        public ResponseEntity<BoardResponseDto> updatePost(@PathVariable Long id, @RequestBody BoardRequestDto boardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails){
+        public ResponseEntity<BoardResponseDto> updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails){
          BoardDetailResponseDto response = boardService.updateBoard(id, boardRequest, userDetails.getUser());
             return new ResponseEntity.ok(new BoardResponseDto(200,"success"));  //Enum으로 ㅅ쓰세요 !!
         }
 
     // 내 게시글 삭제
       @DeleteMapping("/{id}")
-        public ResponseEntity<BoardResponseDto> deletePost(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-            boardService.deletePost(id, userDetails.getUser());
+        public ResponseEntity<BoardResponseDto> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            boardService.deleteBoard(id, userDetails.getUser());
             return new ResponseEntity.ok(new BoardResponseDto(200,"success"));
         }
 
@@ -53,7 +53,7 @@ public class BoardController {
         @GetMapping("/mylist")
         public ResponseEntity<BoardResponseDto> getBoardMyList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
             List<BoardSimpleResponseDto> response = boardService.getBoardMyList(userDetails.getUser());
-            return new ResponseEntity<>(new BoardResponseDto("success", "유저의 게시물 조회 성공", response), HttpStatus.OK);
+            return new ResponseEntity.ok(new BoardResponseDto(200,"success"));
         }
 
 
