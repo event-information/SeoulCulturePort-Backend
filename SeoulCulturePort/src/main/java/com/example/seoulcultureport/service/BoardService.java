@@ -5,7 +5,6 @@ import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.repository.BoardRepository;
 import com.example.seoulcultureport.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
