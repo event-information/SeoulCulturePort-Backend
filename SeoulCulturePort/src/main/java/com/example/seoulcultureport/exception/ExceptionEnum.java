@@ -3,12 +3,9 @@ package com.example.seoulcultureport.exception;
 import org.springframework.http.HttpStatus;
 
 public enum ExceptionEnum {
-    INVAILD_TOKEN(HttpStatus.BAD_REQUEST, "토큰이 유효하지 않습니다."),
-    NOT_TOKEN(HttpStatus.BAD_REQUEST, "로그인 해주세요.(토큰없음)"),
 
-    ONLY_ADMIN(HttpStatus.BAD_REQUEST, "관리자계정으로 삭제가능합니다."),
-    DUPLICATE_USER(HttpStatus.BAD_REQUEST, "중복된 이름입니다."),
-
+    DUPLICATE_USER(HttpStatus.BAD_REQUEST, "사용중인 아이디 입니다."),
+    PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
     NOT_FOUND_USER(HttpStatus.BAD_REQUEST, "회원을 찾을 수 없습니다."),
 
     NOT_FOUND_POST_ALL(HttpStatus.BAD_REQUEST, "게시글이 없습니다."),

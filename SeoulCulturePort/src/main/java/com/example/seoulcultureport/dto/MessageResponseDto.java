@@ -8,7 +8,7 @@ public class MessageResponseDto {
     private int status;
     private String message;
 
-    public void MessageResponse(StatusEnum statusEnum) {
+    public MessageResponseDto(StatusEnum statusEnum) {
         this.status = statusEnum.statusCode;
         this.message = statusEnum.msg;
     }

@@ -1,5 +1,6 @@
 package com.example.seoulcultureport.entity;
 
+import com.example.seoulcultureport.jwt.UserRoleEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -21,4 +22,17 @@ public class User {
 
     @Column(nullable = false)
     private String nickname;
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
+
+    public User(String username, String password, UserRoleEnum role, String nickname) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.nickname = nickname;
+
+    }
 }
