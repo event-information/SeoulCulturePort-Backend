@@ -1,9 +1,6 @@
 package com.example.seoulcultureport.service;
 
-import com.example.seoulcultureport.dto.LoginRequestDto;
-import com.example.seoulcultureport.dto.MessageResponseDto;
-import com.example.seoulcultureport.dto.SignupRequestDto;
-import com.example.seoulcultureport.dto.StatusEnum;
+import com.example.seoulcultureport.dto.*;
 import com.example.seoulcultureport.entity.User;
 import com.example.seoulcultureport.exception.ApiException;
 import com.example.seoulcultureport.exception.ExceptionEnum;
@@ -74,5 +71,17 @@ public class UserService {
                 user.getRole(),
                 user.getNickname()));
         return new MessageResponseDto(StatusEnum.OK);
+    }
+
+    public CheckIdResponseDto checkid(CheckIdRequestDto checkIdRequestDto) {
+
+        String username = checkIdRequestDto.getLoginid();
+
+        Optional<User> userfind = userRepository.findByUsername(username);
+        if (userfind.isPresent()) {
+            throw new ApiException(ExceptionEnum.DUPLICATE_USER);
+        }
+
+        return new CheckIdResponseDto("pass");
     }
 }

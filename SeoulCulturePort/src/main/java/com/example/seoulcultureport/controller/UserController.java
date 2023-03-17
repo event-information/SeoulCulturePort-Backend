@@ -1,14 +1,9 @@
 package com.example.seoulcultureport.controller;
 
-import com.example.seoulcultureport.dto.LoginRequestDto;
-import com.example.seoulcultureport.dto.MessageResponseDto;
-import com.example.seoulcultureport.dto.SignupRequestDto;
+import com.example.seoulcultureport.dto.*;
 import com.example.seoulcultureport.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -31,5 +26,11 @@ public class UserController {
             @RequestBody @Valid LoginRequestDto loginRequestDto,
             HttpServletResponse response) {
         return userService.login(loginRequestDto, response);
+    }
+
+    @PostMapping("/check")
+    public CheckIdResponseDto checkid(
+            @RequestBody @Valid CheckIdRequestDto checkIdRequestDto) {
+        return userService.checkid(checkIdRequestDto);
     }
 }
