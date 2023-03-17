@@ -2,7 +2,7 @@ package com.example.seoulcultureport.dto;
 
 public enum StatusEnum {
 
-    OK(200, "성공");
+    OK(200, "success");
 
     int statusCode;
     String msg;

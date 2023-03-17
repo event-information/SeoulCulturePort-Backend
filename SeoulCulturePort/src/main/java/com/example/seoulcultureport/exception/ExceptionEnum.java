@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 public enum ExceptionEnum {
 
     DUPLICATE_USER(HttpStatus.BAD_REQUEST, "사용중인 아이디 입니다."),
+    DUPLICATE_NICKNAME(HttpStatus.BAD_REQUEST, "사용중인 닉네임 입니다."),
     PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."),
     NOT_FOUND_USER(HttpStatus.BAD_REQUEST, "회원을 찾을 수 없습니다."),
 

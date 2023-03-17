@@ -31,7 +31,7 @@ public class UserService {
     @Transactional
     public MessageResponseDto signup(SignupRequestDto signupRequestDto) {
 
-        String username = signupRequestDto.getUsername();
+        String username = signupRequestDto.getLoginid();
         String password = passwordEncoder.encode(signupRequestDto.getPassword());
         String nickname = signupRequestDto.getNickname();
 
@@ -39,6 +39,12 @@ public class UserService {
         if (userfind.isPresent()) {
             throw new ApiException(ExceptionEnum.DUPLICATE_USER);
         }
+
+        Optional<User> nickfind = userRepository.findByNickname(signupRequestDto.getNickname());
+        if (nickfind.isPresent()) {
+            throw new ApiException(ExceptionEnum.DUPLICATE_NICKNAME);
+        }
+
         UserRoleEnum role = UserRoleEnum.USER;
         if (signupRequestDto.isAdmin()) {
             if (!signupRequestDto.getAdminToken().equals(ADMIN_TOKEN)) {
@@ -52,7 +58,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public MessageResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
-        String username = loginRequestDto.getUsername();
+        String username = loginRequestDto.getLoginid();
         String password = loginRequestDto.getPassword();
 
         User user = userRepository.findByUsername(username).orElseThrow(
