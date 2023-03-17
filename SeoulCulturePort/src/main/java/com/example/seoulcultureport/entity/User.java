@@ -1,4 +1,38 @@
 package com.example.seoulcultureport.entity;
 
+import com.example.seoulcultureport.jwt.UserRoleEnum;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+
+@Getter
+@Entity(name = "users")
+@NoArgsConstructor
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private String nickname;
+
+    @Column(nullable = false)
+    @Enumerated(value = EnumType.STRING)
+    private UserRoleEnum role;
+
+
+    public User(String username, String password, UserRoleEnum role, String nickname) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.nickname = nickname;
+
+    }
 }
