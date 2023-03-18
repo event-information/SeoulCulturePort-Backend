@@ -34,7 +34,7 @@ public class BoardDetailResponseDto {
         this.endDate = board.getEndDate();
         this.contents = board.getContents();
 
-        for(Comment comment : board.getComments()) {
+        for (Comment comment : board.getComments()) {
             commentList.add(new CommentResponseDto(comment));
         }
     }

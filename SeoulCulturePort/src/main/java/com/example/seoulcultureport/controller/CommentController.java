@@ -1,9 +1,7 @@
 package com.example.seoulcultureport.controller;
 
 import com.example.seoulcultureport.dto.CommentRequestDto;
-import com.example.seoulcultureport.dto.CommentResponseDto;
 import com.example.seoulcultureport.dto.MessageResponseDto;
-import com.example.seoulcultureport.dto.StatusResponseDto;
 import com.example.seoulcultureport.security.UserDetailsImpl;
 import com.example.seoulcultureport.service.CommentService;
 import lombok.RequiredArgsConstructor;
