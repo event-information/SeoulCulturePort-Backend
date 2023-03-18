@@ -1,5 +1,6 @@
 package com.example.seoulcultureport.dto;
 
+
 import com.example.seoulcultureport.entity.Comment;
 
 public class CommentResponseDto {
@@ -11,4 +12,5 @@ public class CommentResponseDto {
         this.id = comment.getId();
         this.comment = comment.getComment();
     }
+
 }

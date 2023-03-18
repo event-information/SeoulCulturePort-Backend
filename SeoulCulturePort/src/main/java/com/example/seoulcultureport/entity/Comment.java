@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Setter
 @NoArgsConstructor
 @Entity
+
 public class Comment extends Timestamped{
 
     @Id
@@ -20,6 +21,7 @@ public class Comment extends Timestamped{
     @Column(nullable = false)
     private String comment;
 
+
     @ManyToOne
     @JoinColumn(name = "Board_ID", nullable = false)
     private Board board;
@@ -28,8 +30,14 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "user_ID")
     private User user;
 
+
+    public void update(CommentRequestDto commentRequestDto) {
+
+        this.content = commentRequestDto.getContent();
+
     public Comment(CommentRequestDto commentRequestDto, User user) {
         this.comment = commentRequestDto.getComment();
         this.user = user;
     }
+
 }

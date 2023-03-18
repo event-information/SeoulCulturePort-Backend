@@ -2,6 +2,7 @@ package com.example.seoulcultureport.service;
 
 import com.example.seoulcultureport.dto.CommentRequestDto;
 import com.example.seoulcultureport.dto.CommentResponseDto;
+
 import com.example.seoulcultureport.dto.MessageResponseDto;
 import com.example.seoulcultureport.dto.StatusEnum;
 import com.example.seoulcultureport.entity.Board;
@@ -16,9 +17,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 public class CommentService {
+  
+    private final BoardRepository boardRepository;
 
     private final CommentRepository commentRepository;
-    private final BoardRepository boardRepository;
+
+    @Transactional
+    public MessageResponseDto updateComment(Long id, CommentRequestDto commentRequestDto, User user) {
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("")
+        );
+        if(user.getUsername().equals(comment.getUsername())) {
+            comment.update(commentRequestDto);
+            commentRepository.saver(comment);
+        }
+        else{
+            throw new IllegalArgumentException("");
+        }
+        return new MessageResponseDto(StatusEnum.OK);
+    }    
 
     @Transactional
     public MessageResponseDto createComment(Long id, CommentRequestDto req, User user) {

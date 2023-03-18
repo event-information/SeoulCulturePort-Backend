@@ -1,5 +1,6 @@
 package com.example.seoulcultureport.entity;
 
+
 import com.example.seoulcultureport.dto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,4 +59,5 @@ public class Board extends Timestamped {
         this.startDate = boardRequestDto.getStartDate();
         this.endDate = boardRequestDto.getEndDate();
     }
+
 }

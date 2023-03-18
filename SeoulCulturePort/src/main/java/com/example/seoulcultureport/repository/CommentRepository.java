@@ -1,7 +1,9 @@
 package com.example.seoulcultureport.repository;
 
-import com.example.seoulcultureport.entity.Comment;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import javax.xml.stream.events.Comment;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 }
