@@ -56,7 +56,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public MessageResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         String username = loginRequestDto.getLoginid();
         String password = loginRequestDto.getPassword();
 
@@ -72,7 +72,7 @@ public class UserService {
                 user.getUsername(),
                 user.getRole(),
                 user.getNickname()));
-        return new MessageResponseDto(StatusEnum.OK);
+        return new LoginResponseDto(StatusEnum.OK, user.getUsername());
     }
 
     public CheckIdResponseDto checkid(CheckIdRequestDto checkIdRequestDto) {
@@ -87,22 +87,29 @@ public class UserService {
         return new CheckIdResponseDto("pass");
     }
 
-    public MessageResponseDto nickpatch(PatchNickRequestDto patchNickRequestDto, User username, UserDetailsImpl userDetails) {
+    @Transactional
+    public MessageResponseDto modifyPassword(ModifyPwRequestDto checkPwRequestDto,
+                                             User user) {
 
-        String nickname = patchNickRequestDto.getNickname();
+        String userid = user.getUsername();
+        String password = checkPwRequestDto.getPassword();
+        String passwordNew = checkPwRequestDto.getPasswordNew();
+        String passwordCheck = checkPwRequestDto.getPasswordCheck();
 
-        Optional<User> nickfind = userRepository.findByNickname(nickname);
-        if (nickfind.isPresent()) {
-            throw new ApiException(ExceptionEnum.DUPLICATE_NICKNAME);
+        User foundUser = userRepository.findByUsername(userid).orElseThrow(
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_USER)
+        );
+
+        if (!passwordEncoder.matches(password, foundUser.getPassword())) {
+            throw new ApiException(ExceptionEnum.PASSWORD_MISMATCH);
         }
-        //사용자의 닉네임 변경
-        if(!username.getUsername().equals(userDetails.getUsername())) {
-            throw new ApiException(ExceptionEnum.TOKEN_ERROR);
+        if (!passwordNew.equals(passwordCheck)) {
+            throw new ApiException(ExceptionEnum.PASSWORD_MISMATCH_NEW);
         }
-        username.setNickname(patchNickRequestDto.getNickname());
 
-        //변경된 사용자 정보를 데이터베이스에 저장
-        userRepository.save(username);
+        String newPassword = passwordEncoder.encode(passwordNew);
+        foundUser.update(newPassword);
+
 
         return new MessageResponseDto(StatusEnum.OK);
     }

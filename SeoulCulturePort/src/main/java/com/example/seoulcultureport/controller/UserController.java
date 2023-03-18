@@ -26,10 +26,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public MessageResponseDto login(
+    public ResponseEntity login(
             @RequestBody @Valid LoginRequestDto loginRequestDto,
             HttpServletResponse response) {
-        return userService.login(loginRequestDto, response);
+        return ResponseEntity.ok().body(userService.login(loginRequestDto, response));
     }
 
     @PostMapping("/check")
