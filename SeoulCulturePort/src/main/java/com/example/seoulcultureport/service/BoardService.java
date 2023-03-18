@@ -62,7 +62,7 @@ public class BoardService {
 
 
 
-    //메인페이지 전체 글 리스트 조회
+    //메인페이지 전체 글 리스트 조회  -토큰 x
     @Transactional(readOnly = true)
     public List<BoardListResponseDto> getBoardList() {
         List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>(); //mapstream 사용해보기...
@@ -73,7 +73,7 @@ public class BoardService {
         return boardListResponseDtos;
     }
 
-    // 상세페이지
+    // 상세페이지  -토큰 x
     @Transactional(readOnly = true)
     public BoardDetailResponseDto getBoardDetailList(Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(
@@ -84,7 +84,7 @@ public class BoardService {
 
 
 
-    // 내 게시글 리스트
+    // 내 게시글 리스트 - 토큰 o
     @Transactional(readOnly = true)
     public List<BoardSimpleResponseDto> getBoardMyList(User user) {
         List<BoardSimpleResponseDto> boardSimpleResponseDtos = new ArrayList<>();
