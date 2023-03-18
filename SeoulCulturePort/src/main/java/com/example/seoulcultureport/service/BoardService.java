@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +22,27 @@ public class BoardService {
     private final UserRepository userRepository;
     private final BoardRepository boardRepository;
 
+            //날짜 string 예외처리
+        private void validateBoard(Board board) {
+            String startDateStr = board.getStartDate();
+            String endDateStr = board.getEndDate();
+
+            // startDate와 endDate를 LocalDate 타입으로 변환
+            LocalDate startDate = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+            LocalDate endDate = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+
+            // startDate가 endDate보다 날짜가 빠른 경우 예외 처리
+            if (startDate.isAfter(endDate)) {
+                throw new IllegalArgumentException("시작일이 종료일보다 빠를 수 없습니다.");
+            }
+        }
+
     // 글생성
     @Transactional
     public MessageResponseDto writeBoard(BoardRequestDto boardRequestDto, User user) {
-        boardRepository.saveAndFlush(new Board(boardRequestDto, user));
+            Board board = new Board(boardRequestDto, user);
+            validateBoard(board);
+            boardRepository.saveAndFlush(new Board(boardRequestDto, user));
         return new MessageResponseDto(StatusEnum.OK);
     }
 
@@ -36,7 +55,7 @@ public class BoardService {
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
-
+        validateBoard(board);
         boardRepository.findByIdAndUserid(boardId, user.getId()).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST)
         );
