@@ -75,6 +75,7 @@ public class UserService {
         return new LoginResponseDto(StatusEnum.OK, user.getUsername());
     }
 
+    @Transactional(readOnly = true)
     public CheckIdResponseDto checkid(CheckIdRequestDto checkIdRequestDto) {
 
         String username = checkIdRequestDto.getLoginid();
@@ -114,6 +115,7 @@ public class UserService {
         return new MessageResponseDto(StatusEnum.OK);
     }
 
+    @Transactional
     public MessageResponseDto nickpatch(PatchNickRequestDto patchNickRequestDto, User username, UserDetailsImpl userDetails) {
 
         String nickname = patchNickRequestDto.getNickname();
