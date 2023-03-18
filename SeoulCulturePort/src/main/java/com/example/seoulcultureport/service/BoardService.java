@@ -31,9 +31,9 @@ public class BoardService {
             LocalDate startDate = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
             LocalDate endDate = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            // startDate가 endDate보다 날짜가 빠른 경우 예외 처리
-            if (startDate.isAfter(endDate)) {
-                throw new IllegalArgumentException("시작일이 종료일보다 빠를 수 없습니다.");
+            // startDate가 endDate보다 날짜가 같거나 빠른 경우 예외 처리
+            if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
+                throw new ApiException(ExceptionEnum.UNAVAILABLE_FOR_LEGAL_REASONS);
             }
         }
 
