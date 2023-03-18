@@ -7,6 +7,7 @@ import com.example.seoulcultureport.exception.ExceptionEnum;
 import com.example.seoulcultureport.jwt.JwtUtil;
 import com.example.seoulcultureport.jwt.UserRoleEnum;
 import com.example.seoulcultureport.repository.UserRepository;
+import com.example.seoulcultureport.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+
 
     private final String ADMIN_TOKEN = "asdfasdfasdf";
 
@@ -83,5 +85,25 @@ public class UserService {
         }
 
         return new CheckIdResponseDto("pass");
+    }
+
+    public MessageResponseDto nickpatch(PatchNickRequestDto patchNickRequestDto, User username, UserDetailsImpl userDetails) {
+
+        String nickname = patchNickRequestDto.getNickname();
+
+        Optional<User> nickfind = userRepository.findByNickname(nickname);
+        if (nickfind.isPresent()) {
+            throw new ApiException(ExceptionEnum.DUPLICATE_NICKNAME);
+        }
+        //사용자의 닉네임 변경
+        if(!username.getUsername().equals(userDetails.getUsername())) {
+            throw new ApiException(ExceptionEnum.TOKEN_ERROR);
+        }
+        username.setNickname(patchNickRequestDto.getNickname());
+
+        //변경된 사용자 정보를 데이터베이스에 저장
+        userRepository.save(username);
+
+        return new MessageResponseDto(StatusEnum.OK);
     }
 }
