@@ -3,12 +3,14 @@ package com.example.seoulcultureport.entity;
 import com.example.seoulcultureport.jwt.UserRoleEnum;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
+@Setter
 @Entity(name = "users")
 @NoArgsConstructor
 public class User {
