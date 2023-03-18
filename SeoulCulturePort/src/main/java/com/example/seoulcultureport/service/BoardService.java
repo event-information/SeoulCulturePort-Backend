@@ -89,6 +89,10 @@ public class BoardService {
     public List<BoardSimpleResponseDto> getBoardMyList(User user) {
         List<BoardSimpleResponseDto> boardSimpleResponseDtos = new ArrayList<>();
         List<Board> boards = boardRepository.findByUserid(user.getId());
+        for (Board board : boards) {
+            boardSimpleResponseDtos.add(new BoardSimpleResponseDto(board));
+        }
+        return boardSimpleResponseDtos;
     }
 
 

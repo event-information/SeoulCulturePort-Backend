@@ -1,5 +1,7 @@
 package com.example.seoulcultureport.dto;
 
+import com.example.seoulcultureport.entity.Board;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +12,15 @@ public class BoardSimpleResponseDto {
     private String title;
     private String image;
     private String contents;
+
+    public BoardSimpleResponseDto (Board board) {
+        this.id = board.getUserid();
+        this.title = board.getTitle();
+        this.image = board.getImage();
+        this.contents = board.getContents();
+    }
+
+
 }
 
 
