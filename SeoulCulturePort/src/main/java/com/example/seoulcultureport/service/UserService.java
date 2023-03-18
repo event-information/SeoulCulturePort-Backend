@@ -1,9 +1,6 @@
 package com.example.seoulcultureport.service;
 
-import com.example.seoulcultureport.dto.LoginRequestDto;
-import com.example.seoulcultureport.dto.MessageResponseDto;
-import com.example.seoulcultureport.dto.SignupRequestDto;
-import com.example.seoulcultureport.dto.StatusEnum;
+import com.example.seoulcultureport.dto.*;
 import com.example.seoulcultureport.entity.User;
 import com.example.seoulcultureport.exception.ApiException;
 import com.example.seoulcultureport.exception.ExceptionEnum;
@@ -31,7 +28,7 @@ public class UserService {
     @Transactional
     public MessageResponseDto signup(SignupRequestDto signupRequestDto) {
 
-        String username = signupRequestDto.getUsername();
+        String username = signupRequestDto.getLoginid();
         String password = passwordEncoder.encode(signupRequestDto.getPassword());
         String nickname = signupRequestDto.getNickname();
 
@@ -39,6 +36,12 @@ public class UserService {
         if (userfind.isPresent()) {
             throw new ApiException(ExceptionEnum.DUPLICATE_USER);
         }
+
+        Optional<User> nickfind = userRepository.findByNickname(signupRequestDto.getNickname());
+        if (nickfind.isPresent()) {
+            throw new ApiException(ExceptionEnum.DUPLICATE_NICKNAME);
+        }
+
         UserRoleEnum role = UserRoleEnum.USER;
         if (signupRequestDto.isAdmin()) {
             if (!signupRequestDto.getAdminToken().equals(ADMIN_TOKEN)) {
@@ -52,7 +55,7 @@ public class UserService {
 
     @Transactional(readOnly = true)
     public MessageResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
-        String username = loginRequestDto.getUsername();
+        String username = loginRequestDto.getLoginid();
         String password = loginRequestDto.getPassword();
 
         User user = userRepository.findByUsername(username).orElseThrow(
@@ -68,5 +71,17 @@ public class UserService {
                 user.getRole(),
                 user.getNickname()));
         return new MessageResponseDto(StatusEnum.OK);
+    }
+
+    public CheckIdResponseDto checkid(CheckIdRequestDto checkIdRequestDto) {
+
+        String username = checkIdRequestDto.getLoginid();
+
+        Optional<User> userfind = userRepository.findByUsername(username);
+        if (userfind.isPresent()) {
+            throw new ApiException(ExceptionEnum.DUPLICATE_USER);
+        }
+
+        return new CheckIdResponseDto("pass");
     }
 }
