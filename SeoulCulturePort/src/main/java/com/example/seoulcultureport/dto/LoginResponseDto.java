@@ -10,9 +10,9 @@ public class LoginResponseDto {
     private String nickName;
 
 
-    public LoginResponseDto(StatusEnum statusEnum, String username) {
+    public LoginResponseDto(StatusEnum statusEnum, String nickName) {
         this.status = statusEnum.statusCode;
         this.message = statusEnum.msg;
-        this.nickName = username;
+        this.nickName = nickName;
     }
 }
