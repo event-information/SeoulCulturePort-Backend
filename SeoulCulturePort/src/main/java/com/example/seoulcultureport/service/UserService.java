@@ -54,7 +54,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public MessageResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
+    public LoginResponseDto login(LoginRequestDto loginRequestDto, HttpServletResponse response) {
         String username = loginRequestDto.getLoginid();
         String password = loginRequestDto.getPassword();
 
@@ -70,7 +70,7 @@ public class UserService {
                 user.getUsername(),
                 user.getRole(),
                 user.getNickname()));
-        return new MessageResponseDto(StatusEnum.OK);
+        return new LoginResponseDto(StatusEnum.OK, user.getUsername());
     }
 
     public CheckIdResponseDto checkid(CheckIdRequestDto checkIdRequestDto) {
@@ -83,5 +83,31 @@ public class UserService {
         }
 
         return new CheckIdResponseDto("pass");
+    }
+
+    @Transactional
+    public MessageResponseDto modifyPassword(ModifyPwRequestDto checkPwRequestDto,
+                                             User user) {
+
+        String userid = user.getUsername();
+        String password = checkPwRequestDto.getPassword();
+        String passwordNew = checkPwRequestDto.getPasswordNew();
+        String passwordCheck = checkPwRequestDto.getPasswordCheck();
+
+        User foundUser = userRepository.findByUsername(userid).orElseThrow(
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_USER)
+        );
+
+        if (!passwordEncoder.matches(password, foundUser.getPassword())) {
+            throw new ApiException(ExceptionEnum.PASSWORD_MISMATCH);
+        }
+        if (!passwordNew.equals(passwordCheck)) {
+            throw new ApiException(ExceptionEnum.PASSWORD_MISMATCH_NEW);
+        }
+
+        String newPassword = passwordEncoder.encode(passwordNew);
+        foundUser.update(newPassword);
+
+        return new MessageResponseDto(StatusEnum.OK);
     }
 }

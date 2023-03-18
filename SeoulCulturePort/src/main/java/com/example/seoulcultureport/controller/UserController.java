@@ -1,8 +1,11 @@
 package com.example.seoulcultureport.controller;
 
 import com.example.seoulcultureport.dto.*;
+import com.example.seoulcultureport.security.UserDetailsImpl;
 import com.example.seoulcultureport.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
@@ -22,15 +25,22 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public MessageResponseDto login(
+    public ResponseEntity login(
             @RequestBody @Valid LoginRequestDto loginRequestDto,
             HttpServletResponse response) {
-        return userService.login(loginRequestDto, response);
+        return ResponseEntity.ok().body(userService.login(loginRequestDto, response));
     }
 
     @PostMapping("/check")
     public CheckIdResponseDto checkid(
             @RequestBody @Valid CheckIdRequestDto checkIdRequestDto) {
         return userService.checkid(checkIdRequestDto);
+    }
+
+    @PatchMapping("/modify/pw")
+    public MessageResponseDto modifyPassword(
+            @RequestBody @Valid ModifyPwRequestDto checkPwRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return userService.modifyPassword(checkPwRequestDto, userDetails.getUser());
     }
 }
