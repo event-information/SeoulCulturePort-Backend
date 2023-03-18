@@ -1,16 +1,14 @@
 package com.example.seoulcultureport.dto;
 
 import com.example.seoulcultureport.entity.Board;
+import lombok.Getter;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
+@Getter
 public class BoardDetailResponseDto {
     private Long id;
     private String title;
     private String image;
+    private String pageUrl;
     private String classify;
     private String region;
     private String location;
@@ -22,6 +20,7 @@ public class BoardDetailResponseDto {
         this.id = board.getId();
         this.title = board.getTitle();
         this.image = board.getImage();
+        this.pageUrl = board.getPageUrl();
         this.classify = board.getClassify();
         this.region = board.getRegion();
         this.location = board.getLocation();

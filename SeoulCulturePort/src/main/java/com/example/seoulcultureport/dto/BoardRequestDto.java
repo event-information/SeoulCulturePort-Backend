@@ -2,14 +2,12 @@ package com.example.seoulcultureport.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
-@Setter
 @NoArgsConstructor
-public class BoardRequestDto{  //클라에서 요청하는 거 , id 자동 생성
+public class BoardRequestDto {
     @NotNull(message = "제목을 입력하세요.")
     private String title;
 
