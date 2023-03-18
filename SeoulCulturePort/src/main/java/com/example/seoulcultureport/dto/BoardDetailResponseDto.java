@@ -1,7 +1,11 @@
 package com.example.seoulcultureport.dto;
 
 import com.example.seoulcultureport.entity.Board;
+import com.example.seoulcultureport.entity.Comment;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class BoardDetailResponseDto {
@@ -16,6 +20,8 @@ public class BoardDetailResponseDto {
     private String endDate;
     private String contents;
 
+    private final List<CommentResponseDto> commentList = new ArrayList<>();
+
     public BoardDetailResponseDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
@@ -27,6 +33,10 @@ public class BoardDetailResponseDto {
         this.startDate = board.getStartDate();
         this.endDate = board.getEndDate();
         this.contents = board.getContents();
+
+        for(Comment comment : board.getComments()) {
+            commentList.add(new CommentResponseDto(comment));
+        }
     }
 
 }

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
@@ -43,6 +45,10 @@ public class Board extends Timestamped {
     private String contents;
 
     private Long userid;  //단방향
+
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
+    @OrderBy(value = "createdAt DESC")
+    private List<Comment> comments = new ArrayList<>();
 
 
 
