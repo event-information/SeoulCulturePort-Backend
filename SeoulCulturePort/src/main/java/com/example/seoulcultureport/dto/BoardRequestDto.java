@@ -16,6 +16,9 @@ public class BoardRequestDto {
     private String image;
 
     @NotBlank(message = "행사 홈페이지 URL을 넣어주세요.")
+    @Pattern(regexp = "^https?:\\/\\/.+\\.(jpe?g|png|gif)$", message = "이미지 URL 형식이 올바르지 않습니다.")
+    //정규식은 http:// 또는 https://로 시작하는 URL 형식이며, .jpg, .jpeg, .png, .gif 확장자를 가진 이미지 파일만을 허용
+    //유효한 이미지 파일인지 확인하기 위해서는 추가적인 검증 과정이 필요 (MIME 타입 검사)
     private String pageUrl;
 
     @NotBlank(message = "항목을 입력하세요.")
