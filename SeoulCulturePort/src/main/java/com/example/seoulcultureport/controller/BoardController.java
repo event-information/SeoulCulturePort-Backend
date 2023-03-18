@@ -10,17 +10,19 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 //반환타입 Enum 으로 바꾸거나 Exception 처리하기 !
-
-@RestController @RequiredArgsConstructor
+@RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/board")
 public class BoardController {
+
     private final BoardService boardService;
 
     // 글생성
     @PostMapping("/")
-    public ResponseEntity<BoardResponseDto> writeBoard(@RequestBody BoardRequestDto boardRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        BoardDetailResponseDto response = boardService.writeBoard(boardRequestDto, userDetails.getUser());
-        return ResponseEntity.ok(new BoardResponseDto(200, "success"));
+    public MessageResponseDto writeBoard(
+            @RequestBody BoardRequestDto boardRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.writeBoard(boardRequestDto, userDetails.getUser());
     }
 
     // 내 게시글 수정

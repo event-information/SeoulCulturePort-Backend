@@ -2,6 +2,9 @@ package com.example.seoulcultureport.service;
 
 import com.example.seoulcultureport.dto.*;
 import com.example.seoulcultureport.entity.Board;
+import com.example.seoulcultureport.entity.User;
+import com.example.seoulcultureport.exception.ApiException;
+import com.example.seoulcultureport.exception.ExceptionEnum;
 import com.example.seoulcultureport.repository.BoardRepository;
 import com.example.seoulcultureport.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,16 +16,15 @@ import java.util.List;
 
 @Service @RequiredArgsConstructor
 public class BoardService {
-    private final BoardRepository boardRepository;
+
     private final UserRepository userRepository;
-    private final UserService userService;
+    private final BoardRepository boardRepository;
 
     // 글생성
     @Transactional
-    public BoardDetailResponseDto writeBoard(BoardRequestDto boardRequestDto, User user) {
-        Board board = boardRepository.saveAndFlush(new Board(boardRequestDto, user));
-
-        return new BoardDetailResponseDto(board);
+    public MessageResponseDto writeBoard(BoardRequestDto boardRequestDto, User user) {
+        boardRepository.saveAndFlush(new Board(boardRequestDto, user));
+        return new MessageResponseDto(StatusEnum.OK);
     }
 
     // 내 게시글 수정
@@ -32,7 +34,7 @@ public class BoardService {
                                           User user ) {
 
         Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("게시판을 찾을 수 없습니다.")
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
 
         boardRepository.findByIdAndUserid(id, user.getId()).orElseThrow(

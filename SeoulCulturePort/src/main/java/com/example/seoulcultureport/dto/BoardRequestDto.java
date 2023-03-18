@@ -10,21 +10,13 @@ import javax.persistence.Column;
 @Setter
 @NoArgsConstructor
 public class BoardRequestDto{  //클라에서 요청하는 거 , id 자동 생성
-    @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
     private String image;
-    @Column(nullable = false)
     private String classify;
-    @Column(nullable = false)
     private String region;
-    @Column(nullable = false)
     private String location;
-    @Column(nullable = false)
     private String startDate;   // 타입 : string
-    @Column(nullable = false)
     private String endDate;
-    @Column(nullable = false)
     private String contents;
    //{
     //    title : string,
