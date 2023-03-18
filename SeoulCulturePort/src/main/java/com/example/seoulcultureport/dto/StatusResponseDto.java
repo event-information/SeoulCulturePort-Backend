@@ -9,4 +9,11 @@ public class StatusResponseDto {
         this.statusCode = statusCode;
         this.msg = msg;
     }
+
+
+    public void setHttpStatus(int statusCode, String msg) {
+        this.statusCode = statusCode;
+        this.msg = msg;
+    }
+
 }

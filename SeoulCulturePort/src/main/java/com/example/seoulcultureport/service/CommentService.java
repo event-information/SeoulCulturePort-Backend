@@ -21,7 +21,8 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    @Transactional
+    
+
     public MessageResponseDto createComment(Long id, CommentRequestDto req, User user) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
@@ -44,5 +45,22 @@ public class CommentService {
             throw new IllegalArgumentException("");
         }
         return new MessageResponseDto(StatusEnum.OK);
+
+    }
+    
+    @Transactional
+    public MessageResponseDto deleteComment(Long id, User user) {
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("")
+        );
+
+        if (user.getUsername().equals(comment.getUsername())) {
+            commentRepository.deleteById(id);
+            return new MessageResponseDto(StatusEnum.OK);
+        } else {
+            throw new IllegalArgumentException("");
+        }
+        return new MessageResponseDto(StatusEnum.OK);
+
     }
 }
