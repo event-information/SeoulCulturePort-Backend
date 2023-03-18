@@ -95,5 +95,14 @@ public class BoardService {
         return boardSimpleResponseDtos;
     }
 
-
+//  @Transactional(readOnly = true)
+//    public List<BoardController.BoardSimpleResponseDto> getBoardMyList(User user) {
+//        List<BoardController.BoardSimpleResponseDto> boardSimpleResponseDtos = new ArrayList<>();
+//        List<Board> boards = boardRepository.findByUser(user);
+//        for (Board board : boards) {
+//            boardSimpleResponseDtos.add(new BoardController.BoardSimpleResponseDto(board));
+//        }
+//        return boardSimpleResponseDtos;
+//    }
+//}
 }

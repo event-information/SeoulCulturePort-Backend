@@ -55,7 +55,6 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers("/signup", "/login", "/check").permitAll()
                 .antMatchers("/api/user/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/board/detail/**").permitAll()
                 .anyRequest().authenticated()
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 

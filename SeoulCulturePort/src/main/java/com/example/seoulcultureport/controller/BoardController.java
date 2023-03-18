@@ -35,7 +35,7 @@ public class BoardController {
     }
 
     // 내 게시글 삭제
-      @DeleteMapping("/{boardiId}")
+      @DeleteMapping("/{boardId}")
         public MessageResponseDto deleteBoard(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
             return boardService.deleteBoard(boardId, userDetails.getUser());
         }

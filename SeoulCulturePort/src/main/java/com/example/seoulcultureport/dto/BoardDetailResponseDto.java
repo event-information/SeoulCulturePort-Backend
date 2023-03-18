@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 public class BoardDetailResponseDto {
-    private Long id;
+    private Long boardId;
     private String title;
     private String image;
     private String classify;
@@ -19,7 +19,7 @@ public class BoardDetailResponseDto {
     private String contents;
 
     public BoardDetailResponseDto(Board board) {
-        this.id = board.getId();
+        this.boardId = board.getId();
         this.title = board.getTitle();
         this.image = board.getImage();
         this.classify = board.getClassify();
