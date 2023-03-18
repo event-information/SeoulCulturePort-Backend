@@ -7,6 +7,8 @@ import com.example.seoulcultureport.dto.StatusEnum;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
 import com.example.seoulcultureport.entity.User;
+import com.example.seoulcultureport.exception.ApiException;
+import com.example.seoulcultureport.exception.ExceptionEnum;
 import com.example.seoulcultureport.repository.BoardRepository;
 import com.example.seoulcultureport.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +27,7 @@ public class CommentService {
 
     public MessageResponseDto createComment(Long id, CommentRequestDto req, User user) {
         Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
 
         Comment comment = commentRepository.saveAndFlush(new Comment(req, board, user));
@@ -36,13 +38,13 @@ public class CommentService {
     @Transactional
     public MessageResponseDto updateComment(Long id, CommentRequestDto commentRequestDto, User user) {
         Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("")
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL)
         );
         if(user.getId().equals(comment.getUser().getId())) {
             comment.update(commentRequestDto);
         }
         else{
-            throw new IllegalArgumentException("");
+            throw new ApiException(ExceptionEnum.NOT_FOUND_COMMENT);
         }
         return new MessageResponseDto(StatusEnum.OK);
 
@@ -51,16 +53,14 @@ public class CommentService {
     @Transactional
     public MessageResponseDto deleteComment(Long id, User user) {
         Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("")
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL)
         );
 
-        if (user.getUsername().equals(comment.getUsername())) {
+        if (user.getId().equals(comment.getUser().getId())) {
             commentRepository.deleteById(id);
             return new MessageResponseDto(StatusEnum.OK);
         } else {
-            throw new IllegalArgumentException("");
+            throw new ApiException(ExceptionEnum.NOT_FOUND_COMMENT);
         }
-        return new MessageResponseDto(StatusEnum.OK);
-
     }
 }
