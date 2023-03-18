@@ -1,5 +1,6 @@
 package com.example.seoulcultureport.repository;
 
+
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import javax.xml.stream.events.Comment;
