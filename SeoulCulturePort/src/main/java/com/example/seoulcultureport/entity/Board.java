@@ -35,7 +35,7 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String contents;
 
-    private Long userid;
+    private Long userid;  //단방향
 
     public Board(BoardRequestDto boardRequestDto, User user) {
         this.title = boardRequestDto.getTitle();

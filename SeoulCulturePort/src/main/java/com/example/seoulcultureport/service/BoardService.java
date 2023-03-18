@@ -50,10 +50,10 @@ public class BoardService {
     @Transactional
     public MessageResponseDto deleteBoard(Long id, User user) {
         Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("")
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
         if(!board.getUserid().equals(user.getId())) {
-            throw new IllegalArgumentException("게시판 삭제 권한이 없습니다.");
+            throw  new ApiException(ExceptionEnum.NOT_FOUND_POST);
         }
         boardRepository.deleteById(id);
         return new MessageResponseDto(StatusEnum.OK);
@@ -65,7 +65,7 @@ public class BoardService {
     //메인페이지 전체 글 리스트 조회
     @Transactional(readOnly = true)
     public List<BoardListResponseDto> getBoardList() {
-        List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>();
+        List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>(); //mapstream 사용해보기...
         List<Board> boards = boardRepository.findAllByOrderByCreatedAtDesc();
         for (Board board : boards) {
             boardListResponseDtos.add(new BoardListResponseDto(board));
@@ -77,7 +77,7 @@ public class BoardService {
     @Transactional(readOnly = true)
     public BoardDetailResponseDto getBoardDetailList(Long id) {
         Board board = boardRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("")
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
         return new BoardDetailResponseDto(board);
     }

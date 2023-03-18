@@ -21,7 +21,7 @@ public class BoardController {
     @PostMapping("/")
     public MessageResponseDto writeBoard(
             @RequestBody BoardRequestDto boardRequestDto,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         return boardService.writeBoard(boardRequestDto, userDetails.getUser());
     }
 
