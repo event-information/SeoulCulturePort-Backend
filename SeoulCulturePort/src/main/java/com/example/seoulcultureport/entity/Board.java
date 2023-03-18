@@ -44,6 +44,8 @@ public class Board extends Timestamped {
 
     private Long userid;  //단방향
 
+
+
     public Board(BoardRequestDto boardRequestDto, User user) {
         this.title = boardRequestDto.getTitle();
         this.image = boardRequestDto.getImage();
