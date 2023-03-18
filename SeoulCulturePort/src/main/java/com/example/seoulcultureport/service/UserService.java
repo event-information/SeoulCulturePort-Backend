@@ -7,6 +7,7 @@ import com.example.seoulcultureport.exception.ExceptionEnum;
 import com.example.seoulcultureport.jwt.JwtUtil;
 import com.example.seoulcultureport.jwt.UserRoleEnum;
 import com.example.seoulcultureport.repository.UserRepository;
+import com.example.seoulcultureport.security.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
+
 
     private final String ADMIN_TOKEN = "asdfasdfasdf";
 
@@ -107,6 +109,7 @@ public class UserService {
 
         String newPassword = passwordEncoder.encode(passwordNew);
         foundUser.update(newPassword);
+
 
         return new MessageResponseDto(StatusEnum.OK);
     }

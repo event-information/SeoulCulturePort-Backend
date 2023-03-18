@@ -36,8 +36,8 @@ public class CommentService {
     }
 
     @Transactional
-    public MessageResponseDto updateComment(Long id, CommentRequestDto commentRequestDto, User user) {
-        Comment comment = commentRepository.findById(id).orElseThrow(
+    public MessageResponseDto updateComment(Long commentId, CommentRequestDto commentRequestDto, User user) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL)
         );
         if(user.getId().equals(comment.getUser().getId())) {
@@ -51,13 +51,13 @@ public class CommentService {
     }
     
     @Transactional
-    public MessageResponseDto deleteComment(Long id, User user) {
-        Comment comment = commentRepository.findById(id).orElseThrow(
+    public MessageResponseDto deleteComment(Long commentId, User user) {
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL)
         );
 
         if (user.getId().equals(comment.getUser().getId())) {
-            commentRepository.deleteById(id);
+            commentRepository.deleteById(commentId);
             return new MessageResponseDto(StatusEnum.OK);
         } else {
             throw new ApiException(ExceptionEnum.NOT_FOUND_COMMENT);
