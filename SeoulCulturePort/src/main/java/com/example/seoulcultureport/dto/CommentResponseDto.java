@@ -2,7 +2,11 @@ package com.example.seoulcultureport.dto;
 
 
 import com.example.seoulcultureport.entity.Comment;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@Getter
+@NoArgsConstructor
 public class CommentResponseDto {
 
     private Long id;
