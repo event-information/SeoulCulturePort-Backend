@@ -1,5 +1,6 @@
 package com.example.seoulcultureport.entity;
 
+import com.example.seoulcultureport.dto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,9 +18,6 @@ public class Comment extends Timestamped{
     private Long id;
 
     @Column(nullable = false)
-    private String nickname;
-
-    @Column(nullable = false)
     private String comment;
 
     @ManyToOne
@@ -29,4 +27,9 @@ public class Comment extends Timestamped{
     @ManyToOne
     @JoinColumn(name = "user_ID")
     private User user;
+
+    public Comment(CommentRequestDto commentRequestDto, User user) {
+        this.comment = commentRequestDto.getComment();
+        this.user = user;
+    }
 }
