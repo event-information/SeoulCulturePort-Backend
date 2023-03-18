@@ -20,10 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentService {
   
     private final BoardRepository boardRepository;
-
     private final CommentRepository commentRepository;
-
-    
 
     public MessageResponseDto createComment(Long id, CommentRequestDto req, User user) {
         Board board = boardRepository.findById(id).orElseThrow(

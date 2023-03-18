@@ -19,7 +19,6 @@ import java.util.List;
 @Service @RequiredArgsConstructor
 public class BoardService {
 
-    private final UserRepository userRepository;
     private final BoardRepository boardRepository;
 
             //날짜 string 예외처리
@@ -64,7 +63,6 @@ public class BoardService {
         return new MessageResponseDto(StatusEnum.OK);
     }
 
-
     // 내 게시글 삭제
     @Transactional
     public MessageResponseDto deleteBoard(Long boardId, User user) {
@@ -77,9 +75,6 @@ public class BoardService {
         boardRepository.deleteById(boardId);
         return new MessageResponseDto(StatusEnum.OK);
     }
-
-
-
 
     //메인페이지 전체 글 리스트 조회  -토큰 x
     @Transactional(readOnly = true)
@@ -101,8 +96,6 @@ public class BoardService {
         return new BoardDetailResponseDto(board);
     }
 
-
-
     // 내 게시글 리스트 - 토큰 o
     @Transactional(readOnly = true)
     public List<BoardSimpleResponseDto> getBoardMyList(User user) {
@@ -113,15 +106,4 @@ public class BoardService {
         }
         return boardSimpleResponseDtos;
     }
-
-//  @Transactional(readOnly = true)
-//    public List<BoardController.BoardSimpleResponseDto> getBoardMyList(User user) {
-//        List<BoardController.BoardSimpleResponseDto> boardSimpleResponseDtos = new ArrayList<>();
-//        List<Board> boards = boardRepository.findByUser(user);
-//        for (Board board : boards) {
-//            boardSimpleResponseDtos.add(new BoardController.BoardSimpleResponseDto(board));
-//        }
-//        return boardSimpleResponseDtos;
-//    }
-//}
 }
