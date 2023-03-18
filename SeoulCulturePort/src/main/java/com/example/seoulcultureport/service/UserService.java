@@ -72,7 +72,7 @@ public class UserService {
                 user.getUsername(),
                 user.getRole(),
                 user.getNickname()));
-        return new LoginResponseDto(StatusEnum.OK, user.getUsername());
+        return new LoginResponseDto(StatusEnum.OK, user.getNickname());
     }
 
     @Transactional(readOnly = true)
