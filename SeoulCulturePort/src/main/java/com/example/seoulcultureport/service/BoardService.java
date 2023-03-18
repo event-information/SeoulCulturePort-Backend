@@ -27,32 +27,34 @@ public class BoardService {
 
     // 내 게시글 수정
     @Transactional
-    public BoardDetailResponseDto updateBoard(Long id,BoardRequestDto boardRequestDto, User user ) {
+    public MessageResponseDto updateBoard(Long id,
+                                          BoardRequestDto boardRequestDto,
+                                          User user ) {
+
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("게시판을 찾을 수 없습니다.")
         );
 
-        if(!board.getUser().getId().equals(user.getId())) {
-            throw new IllegalArgumentException("게시판 수정 권한이 없습니다.");
-        }
-        return new BoardDetailResponseDto(board);
+        boardRepository.findByIdAndUserid(id, user.getId()).orElseThrow(
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_POST)
+        );
 
-
-
+        board.update(boardRequestDto);
+        return new MessageResponseDto(StatusEnum.OK);
     }
 
 
     // 내 게시글 삭제
     @Transactional
-    public void deleteBoard(Long id, User user) {
+    public MessageResponseDto deleteBoard(Long id, User user) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("")
         );
-
-        if(!board.getUser().getId().equals(user.getId())) {
+        if(!board.getUserid().equals(user.getId())) {
             throw new IllegalArgumentException("게시판 삭제 권한이 없습니다.");
         }
         boardRepository.deleteById(id);
+        return new MessageResponseDto(StatusEnum.OK);
     }
 
 
@@ -63,7 +65,6 @@ public class BoardService {
     public List<BoardListResponseDto> getBoardList() {
         List<BoardListResponseDto> boardListResponseDtos = new ArrayList<>();
         List<Board> boards = boardRepository.findAllByOrderByCreatedAtDesc();
-
         for (Board board : boards) {
             boardListResponseDtos.add(new BoardListResponseDto(board));
         }
@@ -85,7 +86,7 @@ public class BoardService {
     @Transactional(readOnly = true)
     public List<BoardSimpleResponseDto> getBoardMyList(User user) {
         List<BoardSimpleResponseDto> boardSimpleResponseDtos = new ArrayList<>();
-        List<User> users = userRepository.findById(user.getId);
+        List<Board> boards = boardRepository.findByUserid(user.getId());
     }
 
 

@@ -1,9 +1,11 @@
 package com.example.seoulcultureport.controller;
 
 import com.example.seoulcultureport.dto.*;
+import com.example.seoulcultureport.security.UserDetailsImpl;
 import com.example.seoulcultureport.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
@@ -23,38 +25,36 @@ public class BoardController {
 
     // 내 게시글 수정
      @PutMapping("/{id}")
-        public ResponseEntity<BoardResponseDto> updateBoard(@PathVariable Long id, @RequestBody BoardRequestDto boardRequest, @AuthenticationPrincipal UserDetailsImpl userDetails){
-         BoardDetailResponseDto response = boardService.updateBoard(id, boardRequest, userDetails.getUser());
-            return ResponseEntity.ok(new BoardResponseDto(200,"success"));
-        }
+     public MessageResponseDto updateBoard(
+            @PathVariable Long id,
+            @RequestBody BoardRequestDto boardRequest,
+            @AuthenticationPrincipal UserDetailsImpl userDetails){
+        return boardService.updateBoard(id, boardRequest, userDetails.getUser());
+    }
 
     // 내 게시글 삭제
       @DeleteMapping("/{id}")
-        public ResponseEntity<BoardResponseDto> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-            boardService.deleteBoard(id, userDetails.getUser());
-            return ResponseEntity.ok(new BoardResponseDto(200,"success"));
+        public MessageResponseDto deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            return boardService.deleteBoard(id, userDetails.getUser());
         }
 
     //메인페이지 전체 글 [리스트] 조회 (토큰x)
         @GetMapping("/list")
-        public ResponseEntity<BoardResponseDto> getBoardList() {
-            List<BoardListResponseDto> response = boardService.getBoardList();
-            return ResponseEntity.ok(new BoardResponseDto(200,"success"));
+        public List<BoardListResponseDto> getBoardList() {
+            return boardService.getBoardList();
         }
 
     // 상세페이지 (토큰 x)
         @GetMapping("/detail/{id}")
-        public ResponseEntity<BoardResponseDto> getBoardDetailList(@PathVariable Long id) {
-            BoardDetailResponseDto response = boardService.getBoardDetailList(id);
-            return ResponseEntity.ok(new BoardResponseDto(200,"success"));
+        public  BoardDetailResponseDto getBoardDetailList(@PathVariable Long id) {
+            return boardService.getBoardDetailList(id);
         }
 
 
     // 내 게시글 [리스트] (토큰 o)
         @GetMapping("/mylist")
-        public ResponseEntity<BoardResponseDto> getBoardMyList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-            List<BoardSimpleResponseDto> response = boardService.getBoardMyList(userDetails.getUser());
-            return ResponseEntity.ok(new BoardResponseDto(200,"success"));
+        public List<BoardSimpleResponseDto> getBoardMyList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+            return boardService.getBoardMyList(userDetails.getUser());
         }
 
 

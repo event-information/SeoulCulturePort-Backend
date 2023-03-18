@@ -1,24 +1,32 @@
 package com.example.seoulcultureport.dto;
 
+import com.example.seoulcultureport.entity.Board;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+@Getter @NoArgsConstructor
 public class BoardListResponseDto {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
     private String image;
-    @Column(nullable = false)
     private String location;
-    @Column(nullable = false)
     private String startDate;   // 타입 : string
-    @Column(nullable = false)
     private String endDate;
+
+    public BoardListResponseDto(Board board) {
+      this.id = board.getId();
+      this.title = board.getTitle();
+      this.image = board.getImage();
+      this.location = board.getLocation();
+      this.startDate = board.getStartDate();
+      this.endDate = board.getEndDate();
+
+    }
+
 
 }
 
