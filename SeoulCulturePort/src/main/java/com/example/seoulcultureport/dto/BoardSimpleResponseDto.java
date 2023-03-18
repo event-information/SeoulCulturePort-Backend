@@ -23,13 +23,4 @@ public class BoardSimpleResponseDto {
         this.contents = board.getContents();
     }
 
-
 }
-
-
-//[{
-//    id: long,
-//    title:string,
-//    image:string,
-//    contents:string,
-//    },]

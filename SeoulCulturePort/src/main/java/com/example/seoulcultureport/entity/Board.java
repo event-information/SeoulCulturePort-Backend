@@ -7,9 +7,12 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter @NoArgsConstructor @Entity
+@Getter
+@NoArgsConstructor
+@Entity
 public class Board extends Timestamped {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -17,6 +20,9 @@ public class Board extends Timestamped {
 
     @Column(nullable = false)
     private String image;
+
+    @Column(nullable = false)
+    private String pageUrl;
 
     @Column(nullable = false)
     private String classify;
@@ -41,6 +47,7 @@ public class Board extends Timestamped {
     public Board(BoardRequestDto boardRequestDto, User user) {
         this.title = boardRequestDto.getTitle();
         this.image = boardRequestDto.getImage();
+        this.pageUrl = boardRequestDto.getPageUrl();
         this.classify = boardRequestDto.getClassify();
         this.region = boardRequestDto.getRegion();
         this.location = boardRequestDto.getLocation();
@@ -53,11 +60,13 @@ public class Board extends Timestamped {
     public void update(BoardRequestDto boardRequestDto) {
         this.title = boardRequestDto.getTitle();
         this.image = boardRequestDto.getImage();
+        this.pageUrl = boardRequestDto.getPageUrl();
         this.classify = boardRequestDto.getClassify();
         this.region = boardRequestDto.getRegion();
         this.location = boardRequestDto.getLocation();
         this.startDate = boardRequestDto.getStartDate();
         this.endDate = boardRequestDto.getEndDate();
+        this.contents = boardRequestDto.getContents();
     }
 
 }

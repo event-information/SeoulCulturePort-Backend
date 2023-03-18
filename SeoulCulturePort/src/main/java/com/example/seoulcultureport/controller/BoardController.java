@@ -4,9 +4,12 @@ import com.example.seoulcultureport.dto.*;
 import com.example.seoulcultureport.security.UserDetailsImpl;
 import com.example.seoulcultureport.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
 //반환타입 Enum 으로 바꾸거나 Exception 처리하기 !
@@ -20,7 +23,7 @@ public class BoardController {
     // 글생성
     @PostMapping("/")
     public MessageResponseDto writeBoard(
-            @RequestBody BoardRequestDto boardRequestDto,
+            @RequestBody @Valid BoardRequestDto boardRequestDto,
             @AuthenticationPrincipal final UserDetailsImpl userDetails) {
         return boardService.writeBoard(boardRequestDto, userDetails.getUser());
     }
@@ -29,7 +32,7 @@ public class BoardController {
      @PutMapping("/{boardId}")
      public MessageResponseDto updateBoard(
             @PathVariable Long boardId,
-            @RequestBody BoardRequestDto boardRequest,
+            @RequestBody @Valid BoardRequestDto boardRequest,
             @AuthenticationPrincipal UserDetailsImpl userDetails){
         return boardService.updateBoard(boardId, boardRequest, userDetails.getUser());
     }

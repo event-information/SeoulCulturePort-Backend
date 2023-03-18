@@ -8,7 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 public class BoardDetailResponseDto {
-    private Long boardId;
+    private Long id;
     private String title;
     private String image;
     private String classify;
@@ -19,7 +19,7 @@ public class BoardDetailResponseDto {
     private String contents;
 
     public BoardDetailResponseDto(Board board) {
-        this.boardId = board.getId();
+        this.id = board.getId();
         this.title = board.getTitle();
         this.image = board.getImage();
         this.classify = board.getClassify();
@@ -31,14 +31,3 @@ public class BoardDetailResponseDto {
     }
 
 }
-//{
-//    id: long,
-//    title : string,
-//    image : string,
-//    classify : string,
-//    region : string,
-//    location: string,
-//    startDate : string,
-//    endDate : string,
-//    contents : string,
-//    }

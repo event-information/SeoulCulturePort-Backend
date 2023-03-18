@@ -27,16 +27,4 @@ public class BoardListResponseDto {
 
     }
 
-
 }
-
-
-
-//{
-//    id : long,
-//    title: string,
-//    image : string,
-//    location : string,
-//    startDate : string,
-//    endDate : string,
-//    }
