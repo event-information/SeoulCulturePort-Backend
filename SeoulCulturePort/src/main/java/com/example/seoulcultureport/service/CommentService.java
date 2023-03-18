@@ -17,12 +17,13 @@ public class CommentService {
     private final BoardRepository boardRepository;
 
     @Transactional
-    public CommentResponseDto createComment(CommentRequestDto req, User user) {
-        Board board = boardRepository.findById(req.getPostID()).orElseThrow(
+    public MessageResponseDto createComment(CommentRequestDto req, User user) {
+        Board board = boardRepository.findById(req.getBoardID()).orElseThrow(
                 () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
         );
 
-        Comment comment = commentRepository.saveAndFlush(new Comment(req, board, user));
-        return new CommentResponseDto(comment);
+        Comment comment = commentRepository.saveAndFlush(new Comment(req, user));
+
+        return new MessageResponseDto(StatusEnum.OK);
     }
 }
