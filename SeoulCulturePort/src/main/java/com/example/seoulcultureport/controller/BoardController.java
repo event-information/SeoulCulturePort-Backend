@@ -26,18 +26,18 @@ public class BoardController {
     }
 
     // 내 게시글 수정
-     @PutMapping("/{id}")
+     @PutMapping("/{boardId}")
      public MessageResponseDto updateBoard(
-            @PathVariable Long id,
+            @PathVariable Long boardId,
             @RequestBody BoardRequestDto boardRequest,
             @AuthenticationPrincipal UserDetailsImpl userDetails){
-        return boardService.updateBoard(id, boardRequest, userDetails.getUser());
+        return boardService.updateBoard(boardId, boardRequest, userDetails.getUser());
     }
 
     // 내 게시글 삭제
-      @DeleteMapping("/{id}")
-        public MessageResponseDto deleteBoard(@PathVariable Long id, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-            return boardService.deleteBoard(id, userDetails.getUser());
+      @DeleteMapping("/{boardiId}")
+        public MessageResponseDto deleteBoard(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+            return boardService.deleteBoard(boardId, userDetails.getUser());
         }
 
     //메인페이지 전체 글 [리스트] 조회 (토큰x)
@@ -47,9 +47,9 @@ public class BoardController {
         }
 
     // 상세페이지 (토큰 x)
-        @GetMapping("/detail/{id}")
-        public  BoardDetailResponseDto getBoardDetailList(@PathVariable Long id) {
-            return boardService.getBoardDetailList(id);
+        @GetMapping("/detail/{boardId}")
+        public  BoardDetailResponseDto getBoardDetailList(@PathVariable Long boardId) {
+            return boardService.getBoardDetailList(boardId);
         }
 
 

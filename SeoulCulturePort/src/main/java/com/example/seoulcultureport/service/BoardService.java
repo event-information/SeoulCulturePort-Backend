@@ -29,15 +29,15 @@ public class BoardService {
 
     // 내 게시글 수정
     @Transactional
-    public MessageResponseDto updateBoard(Long id,
+    public MessageResponseDto updateBoard(Long boardId,
                                           BoardRequestDto boardRequestDto,
                                           User user ) {
 
-        Board board = boardRepository.findById(id).orElseThrow(
+        Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
 
-        boardRepository.findByIdAndUserid(id, user.getId()).orElseThrow(
+        boardRepository.findByIdAndUserid(boardId, user.getId()).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST)
         );
 
@@ -48,14 +48,14 @@ public class BoardService {
 
     // 내 게시글 삭제
     @Transactional
-    public MessageResponseDto deleteBoard(Long id, User user) {
-        Board board = boardRepository.findById(id).orElseThrow(
+    public MessageResponseDto deleteBoard(Long boardId, User user) {
+        Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
         if(!board.getUserid().equals(user.getId())) {
             throw  new ApiException(ExceptionEnum.NOT_FOUND_POST);
         }
-        boardRepository.deleteById(id);
+        boardRepository.deleteById(boardId);
         return new MessageResponseDto(StatusEnum.OK);
     }
 
@@ -75,8 +75,8 @@ public class BoardService {
 
     // 상세페이지
     @Transactional(readOnly = true)
-    public BoardDetailResponseDto getBoardDetailList(Long id) {
-        Board board = boardRepository.findById(id).orElseThrow(
+    public BoardDetailResponseDto getBoardDetailList(Long boardId) {
+        Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
         return new BoardDetailResponseDto(board);
