@@ -3,7 +3,6 @@ package com.example.seoulcultureport.dto;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
 import lombok.Getter;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;

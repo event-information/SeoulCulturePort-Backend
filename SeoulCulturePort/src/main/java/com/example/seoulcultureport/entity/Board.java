@@ -77,4 +77,5 @@ public class Board extends Timestamped {
         this.contents = boardRequestDto.getContents();
     }
 
+
 }

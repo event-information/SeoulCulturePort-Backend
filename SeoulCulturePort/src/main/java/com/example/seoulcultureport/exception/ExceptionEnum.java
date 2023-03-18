@@ -14,11 +14,15 @@ public enum ExceptionEnum {
     NOT_FOUND_POST(HttpStatus.BAD_REQUEST, "게시글 수정 권한이 없습니다."),
     NOT_FOUND_POST_ADMIN(HttpStatus.BAD_REQUEST, "게시물을 찾을 수 없습니다.(관리자계정)"),
 
+
     NOT_FOUND_COMMENT_ALL(HttpStatus.BAD_REQUEST, "댓글이 없습니다."),
     NOT_FOUND_COMMENT(HttpStatus.BAD_REQUEST, "댓글 수정 권한이 없습니다."),
     NOT_FOUND_COMMENT_ADMIN(HttpStatus.BAD_REQUEST, "댓글을 찾을 수 없습니다.(관리자계정)"),
 
     NOT_FOUND_TOKEN(HttpStatus.BAD_REQUEST, "토큰 값이 없습니다."),
+
+    UNAVAILABLE_FOR_LEGAL_REASONS(HttpStatus.BAD_REQUEST, "시작일이 종료일보다 같거나 빠를 수 없습니다." )
+
     ;
 
     private HttpStatus status;
