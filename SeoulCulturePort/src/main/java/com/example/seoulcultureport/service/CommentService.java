@@ -1,7 +1,6 @@
 package com.example.seoulcultureport.service;
 
 import com.example.seoulcultureport.dto.CommentRequestDto;
-import com.example.seoulcultureport.dto.CommentResponseDto;
 
 import com.example.seoulcultureport.dto.MessageResponseDto;
 import com.example.seoulcultureport.dto.StatusEnum;
@@ -23,28 +22,27 @@ public class CommentService {
     private final CommentRepository commentRepository;
 
     @Transactional
-    public MessageResponseDto updateComment(Long id, CommentRequestDto commentRequestDto, User user) {
-        Comment comment = commentRepository.findById(id).orElseThrow(
-                () -> new IllegalArgumentException("")
-        );
-        if(user.getUsername().equals(comment.getUsername())) {
-            comment.update(commentRequestDto);
-            commentRepository.saver(comment);
-        }
-        else{
-            throw new IllegalArgumentException("");
-        }
-        return new MessageResponseDto(StatusEnum.OK);
-    }    
-
-    @Transactional
     public MessageResponseDto createComment(Long id, CommentRequestDto req, User user) {
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("게시글을 찾을 수 없습니다.")
         );
 
-        Comment comment = commentRepository.saveAndFlush(new Comment(req, user));
+        Comment comment = commentRepository.saveAndFlush(new Comment(req, board, user));
 
+        return new MessageResponseDto(StatusEnum.OK);
+    }
+
+    @Transactional
+    public MessageResponseDto updateComment(Long id, CommentRequestDto commentRequestDto, User user) {
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("")
+        );
+        if(user.getId().equals(comment.getUser().getId())) {
+            comment.update(commentRequestDto);
+        }
+        else{
+            throw new IllegalArgumentException("");
+        }
         return new MessageResponseDto(StatusEnum.OK);
     }
 }
