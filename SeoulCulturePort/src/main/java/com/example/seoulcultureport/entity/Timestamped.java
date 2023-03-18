@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 
 @Getter
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class) //사실 얘네는 걍 세트라고 외움
-public class Timestamped { //상속을 이용해서 생성/수정 시간을 관리해준다.
+@EntityListeners(AuditingEntityListener.class)
+public class Timestamped {
 
     @CreatedDate
-    private LocalDateTime createdAt; //생성시간
+    private LocalDateTime createdAt;
 
     @LastModifiedDate
-    private LocalDateTime modifiedAt; //수정시간
+    private LocalDateTime modifiedAt;
 }
