@@ -6,6 +6,7 @@ import com.example.seoulcultureport.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.xml.stream.events.Comment;
 
@@ -15,19 +16,17 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-    public StatusResponseDto deleteComment(Long id, User user) {
+    @Transactional
+    public MessageResponseDto deleteComment(Long id, User user) {
         Comment comment = commentRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("")
         );
 
-        StatusResponseDto result = new StatusResponseDto();
         if (user.getUsername().equals(comment.getUsername())) {
             commentRepository.deleteById(id);
-            result.setHttpStatus(HttpStatus.OK.value(), "댓글 삭제 성공");
-            return result;
+            return new MessageResponseDto(StatusEnum.OK);
         } else {
-            result.setHttpStatus(HttpStatus.BAD_REQUEST.value(), "댓글 삭제 실패");
-            return result;
+            throw new IllegalArgumentException("");
         }
     }
 }
