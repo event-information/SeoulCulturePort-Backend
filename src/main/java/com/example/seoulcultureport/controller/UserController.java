@@ -40,10 +40,9 @@ public class UserController {
     }
 
     @PatchMapping("/modify/nick")
-    public MessageResponseDto nickpatch(@Valid @RequestBody PatchNickRequestDto patchNickRequestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        if(userDetails == null) {
-            throw new ApiException(ExceptionEnum.NOT_FOUND_TOKEN);
-        }
+    public MessageResponseDto nickpatch(
+            @Valid @RequestBody PatchNickRequestDto patchNickRequestDto,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return userService.nickpatch(patchNickRequestDto, userDetails.getUser(), userDetails);
     }
 
