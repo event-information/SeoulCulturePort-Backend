@@ -19,6 +19,7 @@ public class BoardDetailResponseDto {
     private String startDate;   // 타입 : string
     private String endDate;
     private String contents;
+    private int cmtCount;
 
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
@@ -33,6 +34,7 @@ public class BoardDetailResponseDto {
         this.startDate = board.getStartDate();
         this.endDate = board.getEndDate();
         this.contents = board.getContents();
+        this.cmtCount = board.getCmtCount();
 
         for (Comment comment : board.getComments()) {
             commentList.add(new CommentResponseDto(comment));

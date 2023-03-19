@@ -13,6 +13,7 @@ public class BoardListResponseDto {
     private String location;
     private String startDate;   // 타입 : string
     private String endDate;
+    private int cmtCount;
 
     public BoardListResponseDto(Board board) {
         this.id = board.getId();
@@ -21,6 +22,7 @@ public class BoardListResponseDto {
         this.location = board.getLocation();
         this.startDate = board.getStartDate();
         this.endDate = board.getEndDate();
+        this.cmtCount = board.getCmtCount();
 
     }
 

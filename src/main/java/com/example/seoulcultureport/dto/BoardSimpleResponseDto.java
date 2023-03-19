@@ -9,12 +9,14 @@ public class BoardSimpleResponseDto {
     private String title;
     private String image;
     private String contents;
+    private int cmtCount;
 
     public BoardSimpleResponseDto(Board board) {
         this.id = board.getId();
         this.title = board.getTitle();
         this.image = board.getImage();
         this.contents = board.getContents();
+        this.cmtCount = board.getCmtCount();
     }
 
 }

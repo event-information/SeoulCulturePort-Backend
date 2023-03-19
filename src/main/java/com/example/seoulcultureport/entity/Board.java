@@ -2,6 +2,7 @@ package com.example.seoulcultureport.entity;
 
 
 import com.example.seoulcultureport.dto.BoardRequestDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -46,10 +47,15 @@ public class Board extends Timestamped {
 
     private Long userid;  //단방향
 
+    @JsonProperty
+    private int cmtCount = 0;
+
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @OrderBy(value = "createdAt DESC")
     private List<Comment> comments = new ArrayList<>();
 
+    public void plusCmtCount() {this.cmtCount ++;}
+    public void minusCmtCount() {this.cmtCount --;}
 
 
     public Board(BoardRequestDto boardRequestDto, User user) {
