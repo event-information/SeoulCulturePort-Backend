@@ -46,18 +46,20 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http.csrf().disable();
-
-        http.cors();
-
+        http.httpBasic().disable();
+        http.formLogin().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/board/detail/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/board/list").permitAll()
                 .antMatchers("/api/user/signup", "/api/user/login", "/api/user/check").permitAll()
-                .anyRequest().authenticated()
-                .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
+                .anyRequest().authenticated();
+
+        http.cors();
+        http.addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         // 내장 기본 로그인 사용
 //        http.formLogin();
