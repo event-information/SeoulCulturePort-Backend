@@ -7,12 +7,12 @@ public class LoginResponseDto {
 
     private int status;
     private String message;
-    private String nickName;
+    private String nickname;
 
 
-    public LoginResponseDto(StatusEnum statusEnum, String nickName) {
+    public LoginResponseDto(StatusEnum statusEnum, String nickname) {
         this.status = statusEnum.statusCode;
         this.message = statusEnum.msg;
-        this.nickName = nickName;
+        this.nickname = nickname;
     }
 }
