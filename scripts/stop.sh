@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-PROJECT_ROOT="/home/ubuntu/app"
+PROJECT_ROOT="/home/ubuntu/app/build/libs"
 JAR_FILE="$PROJECT_ROOT/SeoulCulturePort-0.0.1-SNAPSHOT.jar"
 
 DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
@@ -19,8 +19,8 @@ else
 fi
 
 # 애플리케이션이 완전히 종료될 때까지 대기
-while [ -n $CURRENT_PID ]
-do
-  sleep 1
-  CURRENT_PID=$(pgrep -f $JAR_FILE)
-done
+#while [ -n $CURRENT_PID ]
+#do
+#  sleep 1
+#  CURRENT_PID=$(pgrep -f $JAR_FILE)
+#done
