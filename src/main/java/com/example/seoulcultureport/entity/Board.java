@@ -2,6 +2,7 @@ package com.example.seoulcultureport.entity;
 
 
 import com.example.seoulcultureport.dto.BoardRequestDto;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -36,7 +37,7 @@ public class Board extends Timestamped {
     private String location;
 
     @Column(nullable = false)
-    private String startDate;   // 타입 : string
+    private String startDate; // 타입 : string
 
     @Column(nullable = false)
     private String endDate;
@@ -44,12 +45,24 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String contents;
 
-    private Long userid;  //단방향
+    @Column(nullable = false)
+    private Long userid; //단방향
+
+    @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = false)
+    private String nickname;
+
+    @Column(nullable = true)
+    private int cmtCount = 0;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @OrderBy(value = "createdAt DESC")
     private List<Comment> comments = new ArrayList<>();
 
+    public void plusCmtCount() {this.cmtCount ++;}
+    public void minusCmtCount() {this.cmtCount --;}
 
 
     public Board(BoardRequestDto boardRequestDto, User user) {
@@ -63,6 +76,8 @@ public class Board extends Timestamped {
         this.endDate = boardRequestDto.getEndDate();
         this.contents = boardRequestDto.getContents();
         this.userid = user.getId();
+        this.username = user.getUsername();
+        this.nickname = user.getNickname();
     }
 
     public void update(BoardRequestDto boardRequestDto) {
