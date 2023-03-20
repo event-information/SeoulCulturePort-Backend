@@ -4,6 +4,7 @@ import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
 import lombok.Getter;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,10 +21,13 @@ public class BoardDetailResponseDto {
     private String endDate;
     private String contents;
     private int cmtCount;
+    private String username;
+    private String createdat;
 
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
     public BoardDetailResponseDto(Board board) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.id = board.getId();
         this.title = board.getTitle();
         this.image = board.getImage();
@@ -35,6 +39,8 @@ public class BoardDetailResponseDto {
         this.endDate = board.getEndDate();
         this.contents = board.getContents();
         this.cmtCount = board.getCmtCount();
+        this.username = board.getUsername();
+        this.createdat = board.getCreatedAt().format(formatter);
 
         for (Comment comment : board.getComments()) {
             commentList.add(new CommentResponseDto(comment));

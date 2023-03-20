@@ -55,7 +55,7 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.GET, "/api/board/detail/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/board/list").permitAll()
-                .antMatchers("/api/user/signup", "/api/user/login", "/api/user/check").permitAll()
+                .antMatchers("/api/user/signup", "/api/user/login", "/api/user/check", "/api/user/checknick").permitAll()
                 .anyRequest().authenticated();
 
         http.cors();

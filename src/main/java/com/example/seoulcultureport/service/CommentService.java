@@ -37,7 +37,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL)
         );
-        if(user.getId().equals(comment.getUser().getId())) {
+        if(user.getId().equals(comment.getUserid())) {
             comment.update(commentRequestDto);
         }
         else{
@@ -52,7 +52,7 @@ public class CommentService {
         Comment comment = commentRepository.findById(commentId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL)
         );
-        if (user.getId().equals(comment.getUser().getId())) {
+        if (user.getId().equals(comment.getUserid())) {
             commentRepository.deleteById(commentId);
             Board board = comment.getBoard();
             board.minusCmtCount();

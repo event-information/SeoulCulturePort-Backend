@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/SeoulCulturePort.main.iml" filepath="$PROJECT_DIR$/.idea/modules/SeoulCulturePort.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.SeoulCulturePort.main.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.SeoulCulturePort.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/com.example.SeoulCulturePort.main~1.iml" filepath="$PROJECT_DIR$/.idea/modules/com.example.SeoulCulturePort.main~1.iml" />
     </modules>
   </component>
 </project>
