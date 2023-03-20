@@ -29,4 +29,14 @@ public class CommentController {
     public MessageResponseDto deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.deleteComment(commentId, userDetails.getUser());
     }
+
+    @PostMapping("/comments/{commentId}/thumbsup")
+    public MessageResponseDto addThumbsup(@PathVariable Long commentId) {
+        return commentService.addThumbsup(commentId);
+    }
+
+    @DeleteMapping("comments/{commentId}/thumbsup/{thumbsupId}")
+    public MessageResponseDto cancelThumbsup(@PathVariable Long commentId, @PathVariable Long thumbsupId) {
+        return commentService.cancelThumbsup(commentId, thumbsupId);
+    }
 }

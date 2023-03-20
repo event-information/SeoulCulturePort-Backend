@@ -12,9 +12,12 @@ public class CommentResponseDto {
     private Long id;
     private String comment;
 
+    private int thumbsUpCount;
+
     public CommentResponseDto(Comment comment) {
         this.id = comment.getId();
         this.comment = comment.getComment();
+        this.thumbsUpCount = comment.getThumbsups().size();
     }
 
 }
