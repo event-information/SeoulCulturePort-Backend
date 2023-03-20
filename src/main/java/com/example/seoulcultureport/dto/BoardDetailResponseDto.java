@@ -21,6 +21,7 @@ public class BoardDetailResponseDto {
     private String endDate;
     private String contents;
     private int cmtCount;
+    private String username;
 
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
@@ -36,6 +37,7 @@ public class BoardDetailResponseDto {
         this.endDate = board.getEndDate();
         this.contents = board.getContents();
         this.cmtCount = board.getCmtCount();
+        this.username = board.getUsername();
 
         for (Comment comment : board.getComments()) {
             commentList.add(new CommentResponseDto(comment));
