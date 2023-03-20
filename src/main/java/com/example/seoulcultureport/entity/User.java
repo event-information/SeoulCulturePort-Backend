@@ -35,6 +35,10 @@ public class User {
     @JoinColumn(name = "userid")
     List<Board> boardList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Thumbsup> thumbsups = new ArrayList<>();
+
+
     public User(String username, String password, UserRoleEnum role, String nickname) {
         this.username = username;
         this.password = password;

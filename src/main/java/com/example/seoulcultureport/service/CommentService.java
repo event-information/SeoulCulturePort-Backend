@@ -1,8 +1,6 @@
 package com.example.seoulcultureport.service;
 
-import com.example.seoulcultureport.dto.CommentRequestDto;
-import com.example.seoulcultureport.dto.MessageResponseDto;
-import com.example.seoulcultureport.dto.StatusEnum;
+import com.example.seoulcultureport.dto.*;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
 import com.example.seoulcultureport.entity.Thumbsup;
@@ -22,7 +20,6 @@ public class CommentService {
 
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
-
     private final ThumbsupRepository thumbsupRepository;
 
     public MessageResponseDto createComment(Long id, CommentRequestDto req, User user) {
@@ -67,24 +64,35 @@ public class CommentService {
     }
 
     @Transactional
-    public MessageResponseDto addThumbsup(Long commentId) {
+    public ThumbsupResponseDto addThumbsup(Long commentId, User user) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL));
+        Thumbsup thumbsupStatus = thumbsupRepository.findByCommentIdAndUserId(commentId, user.getId())
+                .orElse(null);
+        if(thumbsupStatus != null) {
+            throw new ApiException(ExceptionEnum.ALREADY_THUMBSUP);
+        }
         Thumbsup thumbsup = new Thumbsup();
         thumbsup.setComment(comment);
+        thumbsup.setUser(user);
+        thumbsup.setThumbsupStatus(ThumbsupStatus.ACTIVE);
         comment.addThumbsup(thumbsup);
-        thumbsupRepository.save(thumbsup);
-        return new MessageResponseDto(StatusEnum.OK);
+        Thumbsup savedThumbsup = thumbsupRepository.save(thumbsup);
+        return new ThumbsupResponseDto(StatusEnum.OK, savedThumbsup.getId(), savedThumbsup.getThumbsupStatus());
     }
 
     @Transactional
-    public MessageResponseDto cancelThumbsup(Long commentId, Long thumbsId) {
+    public ThumbsupResponseDto cancelThumbsup(Long commentId, Long thumbsId, User user) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL));
-        Thumbsup thumbsup = thumbsupRepository.findById(thumbsId)
-                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL));
-        comment.cancelThumbsup(thumbsup);
-        thumbsupRepository.delete(thumbsup);
-        return new MessageResponseDto(StatusEnum.OK);
+        Thumbsup thumbsupStatus = thumbsupRepository.findById(thumbsId)
+                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_THUMBSUP));
+        if(!thumbsupStatus.getUser().getId().equals(user.getId())) {
+            throw new ApiException(ExceptionEnum.TOKEN_ERROR);
+        }
+        thumbsupStatus.setThumbsupStatus(ThumbsupStatus.CANCELED);
+        comment.cancelThumbsup(thumbsupStatus);
+        Thumbsup deletedThumbsup = thumbsupRepository.save(thumbsupStatus);
+        return new ThumbsupResponseDto(StatusEnum.OK, deletedThumbsup.getId(), deletedThumbsup.getThumbsupStatus());
     }
 }

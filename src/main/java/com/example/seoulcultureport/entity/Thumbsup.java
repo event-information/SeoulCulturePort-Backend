@@ -1,5 +1,6 @@
 package com.example.seoulcultureport.entity;
 
+import com.example.seoulcultureport.dto.ThumbsupStatus;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,12 @@ public class Thumbsup {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "comment_id")
     private Comment comment;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    @Enumerated(EnumType.STRING)
+    private ThumbsupStatus thumbsupStatus;
 
     public Thumbsup(){
 
