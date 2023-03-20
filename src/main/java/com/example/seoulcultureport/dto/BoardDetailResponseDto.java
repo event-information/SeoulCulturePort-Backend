@@ -3,12 +3,12 @@ package com.example.seoulcultureport.dto;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
 import lombok.Getter;
-import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Getter
 public class BoardDetailResponseDto {
     private Long id;
     private String title;
@@ -21,6 +21,8 @@ public class BoardDetailResponseDto {
     private String endDate;
     private String contents;
     private int cmtCount;
+    private String username;
+    private LocalDateTime createdat;
 
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
@@ -36,6 +38,8 @@ public class BoardDetailResponseDto {
         this.endDate = board.getEndDate();
         this.contents = board.getContents();
         this.cmtCount = board.getCmtCount();
+        this.username = board.getUsername();
+        this.createdat = board.getCreatedAt();
 
         for (Comment comment : board.getComments()) {
             commentList.add(new CommentResponseDto(comment));
