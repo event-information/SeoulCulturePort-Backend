@@ -1,5 +1,8 @@
 package com.example.seoulcultureport.dto;
 
+import lombok.Getter;
+
+@Getter
 public class CheckNickResponseDto {
 
     private String message;
