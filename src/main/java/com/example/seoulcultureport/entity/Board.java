@@ -51,6 +51,9 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String username;
 
+    @Column(nullable = false)
+    private String nickname;
+
     @Column(nullable = true)
     private int cmtCount = 0;
 
@@ -74,6 +77,7 @@ public class Board extends Timestamped {
         this.contents = boardRequestDto.getContents();
         this.userid = user.getId();
         this.username = user.getUsername();
+        this.nickname = user.getNickname();
     }
 
     public void update(BoardRequestDto boardRequestDto) {

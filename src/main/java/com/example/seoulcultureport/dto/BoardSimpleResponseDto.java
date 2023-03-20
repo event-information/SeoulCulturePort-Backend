@@ -11,6 +11,7 @@ public class BoardSimpleResponseDto {
     private String image;
     private String contents;
     private int cmtCount;
+    private String nickname;
 
     public BoardSimpleResponseDto(Board board) {
         this.id = board.getId();
@@ -18,6 +19,7 @@ public class BoardSimpleResponseDto {
         this.image = board.getImage();
         this.contents = board.getContents();
         this.cmtCount = board.getCmtCount();
+        this.nickname = board.getNickname();
     }
 
 }

@@ -15,6 +15,7 @@ public class BoardListResponseDto {
     private String startDate;   // 타입 : string
     private String endDate;
     private int cmtCount;
+    private String nickname;
 
     public BoardListResponseDto(Board board) {
         this.id = board.getId();
@@ -24,6 +25,7 @@ public class BoardListResponseDto {
         this.startDate = board.getStartDate();
         this.endDate = board.getEndDate();
         this.cmtCount = board.getCmtCount();
+        this.nickname = board.getNickname();
 
     }
 
