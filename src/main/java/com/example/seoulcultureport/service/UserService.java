@@ -88,6 +88,19 @@ public class UserService {
         return new CheckIdResponseDto("pass");
     }
 
+    @Transactional(readOnly = true)
+    public CheckNickResponseDto checknick(CheckNickRequestDto checkNickRequestDto) {
+
+        String nickname = checkNickRequestDto.getNickname();
+
+        Optional<User> nickfind = userRepository.findByNickname(nickname);
+        if (nickfind.isPresent()) {
+            throw new ApiException(ExceptionEnum.DUPLICATE_NICKNAME);
+        }
+
+        return new CheckNickResponseDto("pass");
+    }
+
     @Transactional
     public MessageResponseDto modifyPassword(ModifyPwRequestDto checkPwRequestDto,
                                              User user) {
