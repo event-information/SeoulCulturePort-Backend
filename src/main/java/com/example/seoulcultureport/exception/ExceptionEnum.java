@@ -7,7 +7,7 @@ public enum ExceptionEnum {
     DUPLICATE_USER(HttpStatus.CONFLICT, "사용중인 아이디 입니다."), //409
     DUPLICATE_NICKNAME(HttpStatus.CONFLICT, "사용중인 닉네임 입니다."), //409
     TOKEN_ERROR(HttpStatus.UNAUTHORIZED, "Token Error"), //401
-    PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다."), //400
+    PASSWORD_MISMATCH(HttpStatus.BAD_REQUEST, "비밀번호가 일치하지 않습니다.test"), //400
     PASSWORD_MISMATCH_NEW(HttpStatus.BAD_REQUEST, "새로운 비밀번호와 확인 비밀번호가 일치하지 않습니다."), //400
     NOT_FOUND_USER(HttpStatus.NOT_FOUND, "회원을 찾을 수 없습니다."), //404
     NOT_FOUND_POST_ALL(HttpStatus.NOT_FOUND, "게시글이 없습니다."), //404
