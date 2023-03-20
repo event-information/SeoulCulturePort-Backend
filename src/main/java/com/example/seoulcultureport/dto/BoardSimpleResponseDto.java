@@ -2,8 +2,9 @@ package com.example.seoulcultureport.dto;
 
 import com.example.seoulcultureport.entity.Board;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 public class BoardSimpleResponseDto {
     private Long id;
     private String title;

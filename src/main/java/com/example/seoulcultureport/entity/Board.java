@@ -37,7 +37,7 @@ public class Board extends Timestamped {
     private String location;
 
     @Column(nullable = false)
-    private String startDate;   // 타입 : string
+    private String startDate; // 타입 : string
 
     @Column(nullable = false)
     private String endDate;
@@ -45,9 +45,13 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String contents;
 
-    private Long userid;  //단방향
+    @Column(nullable = false)
+    private Long userid; //단방향
 
-    @JsonProperty
+    @Column(nullable = false)
+    private String username;
+
+    @Column(nullable = true)
     private int cmtCount = 0;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
@@ -69,6 +73,7 @@ public class Board extends Timestamped {
         this.endDate = boardRequestDto.getEndDate();
         this.contents = boardRequestDto.getContents();
         this.userid = user.getId();
+        this.username = user.getUsername();
     }
 
     public void update(BoardRequestDto boardRequestDto) {

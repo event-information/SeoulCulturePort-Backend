@@ -39,6 +39,12 @@ public class UserController {
         return userService.checkid(checkIdRequestDto);
     }
 
+    @PostMapping("/checknick")
+    public CheckNickResponseDto checknick(
+            @RequestBody @Valid CheckNickRequestDto checkNickRequestDto) {
+        return userService.checknick(checkNickRequestDto);
+    }
+
     @PatchMapping("/modify/nick")
     public MessageResponseDto nickpatch(
             @Valid @RequestBody PatchNickRequestDto patchNickRequestDto,

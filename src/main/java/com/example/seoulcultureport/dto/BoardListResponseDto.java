@@ -3,8 +3,9 @@ package com.example.seoulcultureport.dto;
 import com.example.seoulcultureport.entity.Board;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 public class BoardListResponseDto {
     private Long id;
