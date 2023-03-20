@@ -3,11 +3,12 @@ package com.example.seoulcultureport.dto;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
+@Getter @Setter
 public class BoardDetailResponseDto {
     private Long id;
     private String title;

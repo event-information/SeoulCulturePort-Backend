@@ -47,7 +47,7 @@ public class Board extends Timestamped {
 
     private Long userid;  //단방향
 
-    @JsonProperty
+    @Column(nullable = true)
     private int cmtCount = 0;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
