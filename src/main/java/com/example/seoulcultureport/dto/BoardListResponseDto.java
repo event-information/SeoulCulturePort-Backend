@@ -4,7 +4,7 @@ import com.example.seoulcultureport.entity.Board;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Getter
 @NoArgsConstructor
@@ -18,9 +18,10 @@ public class BoardListResponseDto {
     private String endDate;
     private int cmtCount;
     private String nickname;
-    private LocalDateTime createdat;
+    private String createdat;
 
     public BoardListResponseDto(Board board) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.id = board.getId();
         this.title = board.getTitle();
         this.image = board.getImage();
@@ -30,7 +31,7 @@ public class BoardListResponseDto {
         this.endDate = board.getEndDate();
         this.cmtCount = board.getCmtCount();
         this.nickname = board.getNickname();
-        this.createdat = board.getCreatedAt();
+        this.createdat = board.getCreatedAt().format(formatter);
 
     }
 
