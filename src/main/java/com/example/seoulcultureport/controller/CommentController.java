@@ -2,6 +2,7 @@ package com.example.seoulcultureport.controller;
 
 import com.example.seoulcultureport.dto.CommentRequestDto;
 import com.example.seoulcultureport.dto.MessageResponseDto;
+import com.example.seoulcultureport.dto.ThumbsupResponseDto;
 import com.example.seoulcultureport.security.UserDetailsImpl;
 import com.example.seoulcultureport.service.CommentService;
 import lombok.RequiredArgsConstructor;
@@ -28,5 +29,15 @@ public class CommentController {
     @DeleteMapping("/comments/{commentId}")
     public MessageResponseDto deleteComment(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         return commentService.deleteComment(commentId, userDetails.getUser());
+    }
+
+    @PostMapping("/comments/{commentId}/thumbsup")
+    public ThumbsupResponseDto addThumbsup(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.addThumbsup(commentId, userDetails.getUser());
+    }
+
+    @DeleteMapping("comments/{commentId}/thumbsup/{thumbsupId}")
+    public ThumbsupResponseDto cancelThumbsup(@PathVariable Long commentId, @PathVariable Long thumbsupId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.cancelThumbsup(commentId, thumbsupId, userDetails.getUser());
     }
 }
