@@ -35,3 +35,5 @@ jobs:
           scp -i private_key.pem -r target/*.jar $USER@$HOST:/path/to/your/app
           ssh -i private_key.pem $USER@$HOST 'bash -s' < deploy.sh
           rm -f private_key.pem
+          
+          //테스트중#1
