@@ -24,12 +24,12 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    env:
-      DB_HOST_URL: ${{secrets.DB_HOST_URL}}
-      DB_USERNAME: ${{secrets.DB_USERNAME}}
-      DB_PASSWORD: ${{secrets.DB_PASSWORD}}
+#  build:
+#    runs-on: ubuntu-latest
+#    env:
+#      DB_HOST_URL: ${{secrets.DB_HOST_URL}}
+#      DB_USERNAME: ${{secrets.DB_USERNAME}}
+#      DB_PASSWORD: ${{secrets.DB_PASSWORD}}
 
   deploy:
     name: Deploy
