@@ -13,6 +13,7 @@ public class BoardListResponseDto {
     private String title;
     private String image;
     private String location;
+    private String region;
     private String startDate;   // 타입 : string
     private String endDate;
     private int cmtCount;
@@ -24,6 +25,7 @@ public class BoardListResponseDto {
         this.title = board.getTitle();
         this.image = board.getImage();
         this.location = board.getLocation();
+        this.region = board.getRegion();
         this.startDate = board.getStartDate();
         this.endDate = board.getEndDate();
         this.cmtCount = board.getCmtCount();
