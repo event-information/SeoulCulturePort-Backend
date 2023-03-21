@@ -1,6 +1,7 @@
 package com.example.seoulcultureport.entity;
 
 
+import com.example.seoulcultureport.dto.ThumbsupStatus;
 import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -102,6 +103,15 @@ public class Board extends Timestamped {
     public void cancelThumbsup(Thumbsup thumbsup) {
         this.thumbsups.remove(thumbsup);
         thumbsup.setBoard(null);
+    }
+
+    public ThumbsupStatus boardThumbsupByUser(Long userid) {
+        for(Thumbsup thumbsup : this.thumbsups) {
+            if(thumbsup.getUser().getId().equals(userid)) {
+                return thumbsup.getThumbsupStatus();
+            }
+        }
+        return ThumbsupStatus.CANCELED;
     }
 
 
