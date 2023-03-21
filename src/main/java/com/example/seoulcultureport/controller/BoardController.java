@@ -64,5 +64,15 @@ public class BoardController {
         return boardService.getBoardMyList(userDetails.getUser());
     }
 
+    @PostMapping("/{boardId}/thumbsup")
+    public ThumbsupResponseDto addThumbsup(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.addThumbsup(boardId, userDetails.getUser());
+    }
+
+    @DeleteMapping("/{boardId}/thumbsup/{thumbsupId}")
+    public ThumbsupResponseDto cancelThumbsup(@PathVariable Long boardId, @PathVariable Long thumbsupId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.cancelThumbsup(boardId, thumbsupId, userDetails.getUser());
+    }
+
 
 }
