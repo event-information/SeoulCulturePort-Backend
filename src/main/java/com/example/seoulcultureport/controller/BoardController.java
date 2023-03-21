@@ -1,6 +1,10 @@
 package com.example.seoulcultureport.controller;
 
 import com.example.seoulcultureport.dto.*;
+import com.example.seoulcultureport.dto.boardDto.BoardDetailResponseDto;
+import com.example.seoulcultureport.dto.boardDto.BoardListResponseDto;
+import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
+import com.example.seoulcultureport.dto.boardDto.BoardSimpleResponseDto;
 import com.example.seoulcultureport.security.UserDetailsImpl;
 import com.example.seoulcultureport.service.BoardService;
 import lombok.RequiredArgsConstructor;

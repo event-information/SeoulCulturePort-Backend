@@ -1,4 +1,4 @@
-package com.example.seoulcultureport.dto;
+package com.example.seoulcultureport.dto.commentDto;
 
 
 import com.example.seoulcultureport.entity.Comment;

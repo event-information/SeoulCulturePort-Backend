@@ -1,6 +1,6 @@
 package com.example.seoulcultureport.controller;
 
-import com.example.seoulcultureport.dto.CommentRequestDto;
+import com.example.seoulcultureport.dto.commentDto.CommentRequestDto;
 import com.example.seoulcultureport.dto.MessageResponseDto;
 import com.example.seoulcultureport.dto.ThumbsupResponseDto;
 import com.example.seoulcultureport.security.UserDetailsImpl;
