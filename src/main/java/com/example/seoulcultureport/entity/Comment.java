@@ -1,6 +1,6 @@
 package com.example.seoulcultureport.entity;
 
-import com.example.seoulcultureport.dto.CommentRequestDto;
+import com.example.seoulcultureport.dto.commentDto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

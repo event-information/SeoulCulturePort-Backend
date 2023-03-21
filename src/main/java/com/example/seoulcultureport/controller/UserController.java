@@ -1,8 +1,7 @@
 package com.example.seoulcultureport.controller;
 
 import com.example.seoulcultureport.dto.*;
-import com.example.seoulcultureport.exception.ApiException;
-import com.example.seoulcultureport.exception.ExceptionEnum;
+import com.example.seoulcultureport.dto.userDto.*;
 import com.example.seoulcultureport.security.UserDetailsImpl;
 import com.example.seoulcultureport.service.UserService;
 import lombok.RequiredArgsConstructor;

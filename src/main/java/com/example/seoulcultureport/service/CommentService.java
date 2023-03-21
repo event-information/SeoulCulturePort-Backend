@@ -1,6 +1,7 @@
 package com.example.seoulcultureport.service;
 
 import com.example.seoulcultureport.dto.*;
+import com.example.seoulcultureport.dto.commentDto.CommentRequestDto;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
 import com.example.seoulcultureport.entity.Thumbsup;

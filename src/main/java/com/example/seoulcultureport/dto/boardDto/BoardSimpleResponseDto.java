@@ -1,4 +1,4 @@
-package com.example.seoulcultureport.dto;
+package com.example.seoulcultureport.dto.boardDto;
 
 import com.example.seoulcultureport.entity.Board;
 import lombok.Getter;
