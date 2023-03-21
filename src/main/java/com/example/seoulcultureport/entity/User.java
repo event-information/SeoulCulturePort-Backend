@@ -35,9 +35,6 @@ public class User {
     @JoinColumn(name = "userid")
     List<Board> boardList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Thumbsup> thumbsups = new ArrayList<>();
-
     @OneToMany
     @JoinColumn(name = "userid")
     List<Comment> commentList = new ArrayList<>();

@@ -1,6 +1,7 @@
 package com.example.seoulcultureport.controller;
 
-import com.example.seoulcultureport.dto.*;
+import com.example.seoulcultureport.dto.MessageResponseDto;
+import com.example.seoulcultureport.dto.ThumbsupResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardDetailResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardListResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
@@ -8,7 +9,6 @@ import com.example.seoulcultureport.dto.boardDto.BoardSimpleResponseDto;
 import com.example.seoulcultureport.security.UserDetailsImpl;
 import com.example.seoulcultureport.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -60,7 +60,6 @@ public class BoardController {
         return boardService.getBoardDetailList(boardId, userDetails.getUser());
     }
 
-
     // 내 게시글 [리스트] (토큰 o)
     @GetMapping("/mylist")
     public List<BoardSimpleResponseDto> getBoardMyList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -68,10 +67,10 @@ public class BoardController {
     }
 
     @GetMapping("/{boardId}/thumbsup")
-    public ResponseEntity addThumbsup(
+    public ThumbsupResponseDto addThumbsup(
             @PathVariable Long boardId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return ResponseEntity.ok().body(boardService.addThumbsup(boardId, userDetails.getUser()));
+        return boardService.addThumbsup(boardId, userDetails.getUser());
     }
 
 //    @PostMapping("/{boardId}/thumbsup")

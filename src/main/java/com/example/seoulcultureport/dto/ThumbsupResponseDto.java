@@ -10,11 +10,7 @@ public class ThumbsupResponseDto {
     private int statusCode;
     private String msg;
     private Long thumbsupId;
-
     private ThumbsupStatus thumbsupStatus;
-
-
-
 
     public ThumbsupResponseDto(StatusEnum statusEnum, Long thumbsupId, ThumbsupStatus thumbsupStatus) {
         this.thumbsupId = thumbsupId;

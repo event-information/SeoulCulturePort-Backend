@@ -4,14 +4,16 @@ package com.example.seoulcultureport.entity;
 import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@Setter
 @Entity
+@NoArgsConstructor
 public class Board extends Timestamped {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,14 +63,16 @@ public class Board extends Timestamped {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany
-    @JoinColumn(name = "board_like")
+    @JoinColumn(name = "boardid")
     List<BoardLike> boardLikeList = new ArrayList<>();
 
-//    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-//    private List<Thumbsup> thumbsups = new ArrayList<>();
+    public void plusCmtCount() {
+        this.cmtCount++;
+    }
 
-    public void plusCmtCount() {this.cmtCount ++;}
-    public void minusCmtCount() {this.cmtCount --;}
+    public void minusCmtCount() {
+        this.cmtCount--;
+    }
 
 
     public Board(BoardRequestDto boardRequestDto, User user) {
@@ -98,15 +102,15 @@ public class Board extends Timestamped {
         this.contents = boardRequestDto.getContents();
     }
 
-    public void addThumbsup(Thumbsup thumbsup) {
-        this.thumbsups.add(thumbsup);
-        thumbsup.setBoard(this);
-    }
-
-    public void cancelThumbsup(Thumbsup thumbsup) {
-        this.thumbsups.remove(thumbsup);
-        thumbsup.setBoard(null);
-    }
+//    public void addThumbsup(Thumbsup thumbsup) {
+//        this.thumbsups.add(thumbsup);
+//        thumbsup.setBoard(this);
+//    }
+//
+//    public void cancelThumbsup(Thumbsup thumbsup) {
+//        this.thumbsups.remove(thumbsup);
+//        thumbsup.setBoard(null);
+//    }
 
 
 }

@@ -1,16 +1,20 @@
 package com.example.seoulcultureport.service;
 
-import com.example.seoulcultureport.dto.*;
+import com.example.seoulcultureport.dto.MessageResponseDto;
+import com.example.seoulcultureport.dto.StatusEnum;
+import com.example.seoulcultureport.dto.ThumbsupResponseDto;
+import com.example.seoulcultureport.dto.ThumbsupStatus;
 import com.example.seoulcultureport.dto.boardDto.BoardDetailResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardListResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
 import com.example.seoulcultureport.dto.boardDto.BoardSimpleResponseDto;
-import com.example.seoulcultureport.entity.*;
+import com.example.seoulcultureport.entity.Board;
+import com.example.seoulcultureport.entity.BoardLike;
+import com.example.seoulcultureport.entity.User;
 import com.example.seoulcultureport.exception.ApiException;
 import com.example.seoulcultureport.exception.ExceptionEnum;
 import com.example.seoulcultureport.repository.BoardLikeRepository;
 import com.example.seoulcultureport.repository.BoardRepository;
-import com.example.seoulcultureport.repository.ThumbsupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -116,21 +120,21 @@ public class BoardService {
         return boardSimpleResponseDtos;
     }
 
-    public MessageResponseDto addThumbsup(Long boardId, User user) {
+    @Transactional
+    public ThumbsupResponseDto addThumbsup(Long boardId, User user) {
 
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
 
-        Optional<BoardLike> getLike = boardLikeRepository.findByBoardIdAndUserId(boardId, user.getId());
+        Optional<BoardLike> getLike = boardLikeRepository.findByBoardidAndUserid(boardId, user.getId());
 
-        BoardLike boardLike;
         if (getLike.isEmpty()) {
-            boardLikeRepository.save(new BoardLike(user.getId(), board));
-            return new MessageResponseDto(StatusEnum.LIKEOK);
+            BoardLike boardLikeSave = boardLikeRepository.save(new BoardLike(user.getId(), board.getId(), ThumbsupStatus.ACTIVE));
+            return new ThumbsupResponseDto(StatusEnum.OK, boardLikeSave.getId(), boardLikeSave.getThumbsupStatus());
         } else {
-            Optional<BoardLike> likedelete = boardLikeRepository.deleteByBoardIdAndUserId(boardId, user.getId());
-            return new MessageResponseDto(StatusEnum.LIKE_CANCLE);
+            boardLikeRepository.deleteByBoardidAndUserid(boardId, user.getId());
+            return new ThumbsupResponseDto(StatusEnum.OK, null, null);
         }
     }
 

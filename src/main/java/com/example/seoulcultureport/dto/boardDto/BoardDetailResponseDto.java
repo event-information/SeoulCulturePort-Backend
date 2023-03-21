@@ -46,7 +46,7 @@ public class BoardDetailResponseDto {
         this.username = board.getUsername();
         this.nickname = board.getNickname();
         this.createdat = board.getCreatedAt().format(formatter);
-        this.thumbsUpCount = board.getThumbsups().size();
+        this.thumbsUpCount = board.getBoardLikeList().size();
 
         for (Comment comment : board.getComments()) {
             commentList.add(new CommentResponseDto(comment));

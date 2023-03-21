@@ -37,9 +37,6 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "user_ID")
     private User user;
 
-    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Thumbsup> thumbsups = new ArrayList<>();
-
     public void update(CommentRequestDto commentRequestDto) {
 
         this.comment = commentRequestDto.getComment();
@@ -50,16 +47,6 @@ public class Comment extends Timestamped{
         this.board = board;
         this.userid = user.getId();
         this.nickname = user.getNickname();
-    }
-
-    public void addThumbsup(Thumbsup thumbsup) {
-        this.thumbsups.add(thumbsup);
-        thumbsup.setComment(this);
-    }
-
-    public void cancelThumbsup(Thumbsup thumbsup) {
-        this.thumbsups.remove(thumbsup);
-        thumbsup.setComment(null);
     }
 
 }
