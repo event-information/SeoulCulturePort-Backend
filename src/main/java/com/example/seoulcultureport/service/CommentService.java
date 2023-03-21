@@ -5,13 +5,11 @@ import com.example.seoulcultureport.dto.StatusEnum;
 import com.example.seoulcultureport.dto.commentDto.CommentRequestDto;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
-import com.example.seoulcultureport.entity.Thumbsup;
 import com.example.seoulcultureport.entity.User;
 import com.example.seoulcultureport.exception.ApiException;
 import com.example.seoulcultureport.exception.ExceptionEnum;
 import com.example.seoulcultureport.repository.BoardRepository;
 import com.example.seoulcultureport.repository.CommentRepository;
-import com.example.seoulcultureport.repository.ThumbsupRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,7 +20,6 @@ public class CommentService {
 
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
-    private final ThumbsupRepository thumbsupRepository;
 
     public MessageResponseDto createComment(Long id, CommentRequestDto req, User user) {
         Board board = boardRepository.findById(id).orElseThrow(

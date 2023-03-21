@@ -31,7 +31,6 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
     private final BoardLikeRepository boardLikeRepository;
-    private final ThumbsupRepository thumbsupRepository;
 
     //날짜 string 예외처리
     private void validateBoard(Board board) {
