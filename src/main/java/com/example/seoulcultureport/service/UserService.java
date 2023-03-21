@@ -1,6 +1,7 @@
 package com.example.seoulcultureport.service;
 
 import com.example.seoulcultureport.dto.*;
+import com.example.seoulcultureport.dto.userDto.*;
 import com.example.seoulcultureport.entity.User;
 import com.example.seoulcultureport.exception.ApiException;
 import com.example.seoulcultureport.exception.ExceptionEnum;

@@ -17,7 +17,9 @@ public enum ExceptionEnum {
     NOT_FOUND_COMMENT(HttpStatus.FORBIDDEN, "댓글 수정 권한이 없습니다."), // 403
     NOT_FOUND_COMMENT_ADMIN(HttpStatus.NOT_FOUND, "댓글을 찾을 수 없습니다. (관리자 계정)"), //404
     NOT_FOUND_TOKEN(HttpStatus.UNAUTHORIZED, "토큰 값이 Null 입니다."), //401
-    UNAVAILABLE_FOR_LEGAL_REASONS(HttpStatus.BAD_REQUEST, "시작일이 종료일보다 같거나 빠를 수 없습니다."); //400
+    UNAVAILABLE_FOR_LEGAL_REASONS(HttpStatus.BAD_REQUEST, "시작일이 종료일보다 같거나 빠를 수 없습니다."), //400
+    ALREADY_THUMBSUP(HttpStatus.BAD_REQUEST, "이미 좋아요를 누르셨습니다."),
+    NOT_FOUND_THUMBSUP(HttpStatus.BAD_REQUEST, "취소 할 좋아요가 없습니다.");
 
     private HttpStatus status;
     private String message;

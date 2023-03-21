@@ -1,12 +1,15 @@
 package com.example.seoulcultureport.service;
 
 import com.example.seoulcultureport.dto.*;
+import com.example.seoulcultureport.dto.boardDto.BoardDetailResponseDto;
+import com.example.seoulcultureport.dto.boardDto.BoardListResponseDto;
+import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
+import com.example.seoulcultureport.dto.boardDto.BoardSimpleResponseDto;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.User;
 import com.example.seoulcultureport.exception.ApiException;
 import com.example.seoulcultureport.exception.ExceptionEnum;
 import com.example.seoulcultureport.repository.BoardRepository;
-import com.example.seoulcultureport.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

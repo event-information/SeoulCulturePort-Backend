@@ -1,4 +1,4 @@
-package com.example.seoulcultureport.dto;
+package com.example.seoulcultureport.dto.commentDto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

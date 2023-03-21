@@ -1,8 +1,7 @@
 package com.example.seoulcultureport.entity;
 
 
-import com.example.seoulcultureport.dto.BoardRequestDto;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
