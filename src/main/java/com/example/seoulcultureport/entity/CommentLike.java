@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Setter
 @Entity
 @NoArgsConstructor
-public class BoardLike {
+public class CommentLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,12 +23,17 @@ public class BoardLike {
     @Column(nullable = false)
     private Long boardid;
 
+    @Column(nullable = false)
+    private Long commentid;
+
     @Enumerated(EnumType.STRING)
     private ThumbsupStatus thumbsupStatus;
 
-    public BoardLike(Long userid, Long board, ThumbsupStatus thumbsupStatus) {
-        this.userid = userid;
-        this.boardid = board;
+
+    public CommentLike(Long id, Long boardId, Long commentId, ThumbsupStatus thumbsupStatus) {
+        this.userid = id;
+        this.boardid = boardId;
+        this.commentid = commentId;
         this.thumbsupStatus = thumbsupStatus;
     }
 }

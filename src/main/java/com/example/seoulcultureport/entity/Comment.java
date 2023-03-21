@@ -37,6 +37,10 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "user_ID")
     private User user;
 
+    @OneToMany
+    @JoinColumn(name = "commentid")
+    List<CommentLike> commentLikeList = new ArrayList<>();
+
     public void update(CommentRequestDto commentRequestDto) {
 
         this.comment = commentRequestDto.getComment();

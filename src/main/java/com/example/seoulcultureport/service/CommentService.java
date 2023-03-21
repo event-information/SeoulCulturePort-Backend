@@ -2,17 +2,20 @@ package com.example.seoulcultureport.service;
 
 import com.example.seoulcultureport.dto.MessageResponseDto;
 import com.example.seoulcultureport.dto.StatusEnum;
+import com.example.seoulcultureport.dto.ThumbsupResponseDto;
+import com.example.seoulcultureport.dto.ThumbsupStatus;
 import com.example.seoulcultureport.dto.commentDto.CommentRequestDto;
-import com.example.seoulcultureport.entity.Board;
-import com.example.seoulcultureport.entity.Comment;
-import com.example.seoulcultureport.entity.User;
+import com.example.seoulcultureport.entity.*;
 import com.example.seoulcultureport.exception.ApiException;
 import com.example.seoulcultureport.exception.ExceptionEnum;
 import com.example.seoulcultureport.repository.BoardRepository;
+import com.example.seoulcultureport.repository.CommentLikeRepository;
 import com.example.seoulcultureport.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,6 +23,7 @@ public class CommentService {
 
     private final BoardRepository boardRepository;
     private final CommentRepository commentRepository;
+    private final CommentLikeRepository commentLikeRepository;
 
     public MessageResponseDto createComment(Long id, CommentRequestDto req, User user) {
         Board board = boardRepository.findById(id).orElseThrow(
@@ -60,6 +64,38 @@ public class CommentService {
             throw new ApiException(ExceptionEnum.NOT_FOUND_COMMENT);
         }
     }
+
+    public ThumbsupResponseDto addThumbsup(Long boardId, Long commentId, User user) {
+
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL)
+        );
+
+        Optional<CommentLike> getLike = commentLikeRepository.findByBoardidAndCommentidAndUserid(user.getId(), boardId, commentId);
+
+        if (getLike.isEmpty()) {
+            CommentLike commentLike = commentLikeRepository.save(new CommentLike(user.getId(), boardId, commentId, ThumbsupStatus.ACTIVE));
+        }
+        return null;
+    }
+
+//    @Transactional
+//    public ThumbsupResponseDto addThumbsup(Long boardId, User user) {
+//
+//        Board board = boardRepository.findById(boardId).orElseThrow(
+//                () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
+//        );
+//
+//        Optional<BoardLike> getLike = boardLikeRepository.findByBoardidAndUserid(boardId, user.getId());
+//
+//        if (getLike.isEmpty()) {
+//            BoardLike boardLikeSave = boardLikeRepository.save(new BoardLike(user.getId(), board.getId(), ThumbsupStatus.ACTIVE));
+//            return new ThumbsupResponseDto(StatusEnum.OK, boardLikeSave.getId(), boardLikeSave.getThumbsupStatus());
+//        } else {
+//            boardLikeRepository.deleteByBoardidAndUserid(boardId, user.getId());
+//            return new ThumbsupResponseDto(StatusEnum.OK, null, ThumbsupStatus.CANCELED);
+//        }
+//    }
 
 //    @Transactional
 //    public ThumbsupResponseDto addThumbsup(Long commentId, User user) {

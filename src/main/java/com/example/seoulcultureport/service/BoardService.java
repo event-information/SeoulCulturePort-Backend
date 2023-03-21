@@ -133,7 +133,7 @@ public class BoardService {
             return new ThumbsupResponseDto(StatusEnum.OK, boardLikeSave.getId(), boardLikeSave.getThumbsupStatus());
         } else {
             boardLikeRepository.deleteByBoardidAndUserid(boardId, user.getId());
-            return new ThumbsupResponseDto(StatusEnum.OK, null, null);
+            return new ThumbsupResponseDto(StatusEnum.OK, null, ThumbsupStatus.CANCELED);
         }
     }
 

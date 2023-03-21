@@ -31,6 +31,13 @@ public class CommentController {
         return commentService.deleteComment(commentId, userDetails.getUser());
     }
 
+    @GetMapping("boards/{boardId}/comments/{commentId}")
+    public ThumbsupResponseDto addThumbsup(@PathVariable Long boardId,
+                                           @PathVariable Long commentId,
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return commentService.addThumbsup(boardId, commentId, userDetails.getUser());
+    }
+
 //    @PostMapping("/comments/{commentId}/thumbsup")
 //    public ThumbsupResponseDto addThumbsup(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
 //        return commentService.addThumbsup(commentId, userDetails.getUser());

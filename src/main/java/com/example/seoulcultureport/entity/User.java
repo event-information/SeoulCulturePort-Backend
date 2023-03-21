@@ -43,6 +43,10 @@ public class User {
     @JoinColumn(name = "userid")
     List<BoardLike> boardLikeList = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "userid")
+    List<CommentLike> commentLikeList = new ArrayList<>();
+
     public User(String username, String password, UserRoleEnum role, String nickname) {
 
         this.username = username;
