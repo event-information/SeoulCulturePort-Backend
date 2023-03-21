@@ -1,4 +1,4 @@
-package com.example.seoulcultureport.dto.userDto;
+package com.example.seoulcultureport.dto;
 
 import lombok.Getter;
 
