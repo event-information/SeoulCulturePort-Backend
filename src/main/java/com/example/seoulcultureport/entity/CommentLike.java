@@ -26,11 +26,10 @@ public class CommentLike {
     @Column(nullable = false)
     private Long commentid;
 
-    @Enumerated(EnumType.STRING)
-    private ThumbsupStatus thumbsupStatus;
+    @Column(nullable = false)
+    private boolean thumbsupStatus;
 
-
-    public CommentLike(Long id, Long boardId, Long commentId, ThumbsupStatus thumbsupStatus) {
+    public CommentLike(Long id, Long boardId, Long commentId, boolean thumbsupStatus) {
         this.userid = id;
         this.boardid = boardId;
         this.commentid = commentId;

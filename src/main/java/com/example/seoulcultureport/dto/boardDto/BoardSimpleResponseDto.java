@@ -21,7 +21,7 @@ public class BoardSimpleResponseDto {
         this.title = board.getTitle();
         this.image = board.getImage();
         this.contents = board.getContents();
-        this.cmtCount = board.getCmtCount();
+        this.cmtCount = board.getComments().size();
         this.nickname = board.getNickname();
         this.createdat = board.getCreatedAt().format(formatter);
 

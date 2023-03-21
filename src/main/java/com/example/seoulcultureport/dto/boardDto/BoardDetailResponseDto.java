@@ -23,10 +23,10 @@ public class BoardDetailResponseDto {
     private String contents;
     private int cmtCount;
     private String username;
-    private String createdat;
     private String nickname;
-
+    private String createdat;
     private int thumbsUpCount;
+
 
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class BoardDetailResponseDto {
         this.startDate = board.getStartDate();
         this.endDate = board.getEndDate();
         this.contents = board.getContents();
-        this.cmtCount = board.getCmtCount();
+        this.cmtCount = board.getComments().size();
         this.username = board.getUsername();
         this.nickname = board.getNickname();
         this.createdat = board.getCreatedAt().format(formatter);

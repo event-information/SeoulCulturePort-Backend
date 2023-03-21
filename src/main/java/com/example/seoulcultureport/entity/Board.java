@@ -55,25 +55,13 @@ public class Board extends Timestamped {
     @Column(nullable = false)
     private String nickname;
 
-    @Column(nullable = true)
-    private int cmtCount = 0;
-
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL)
     @OrderBy(value = "createdAt DESC")
-    private List<Comment> comments = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
 
     @OneToMany
     @JoinColumn(name = "boardid")
     List<BoardLike> boardLikeList = new ArrayList<>();
-
-    public void plusCmtCount() {
-        this.cmtCount++;
-    }
-
-    public void minusCmtCount() {
-        this.cmtCount--;
-    }
-
 
     public Board(BoardRequestDto boardRequestDto, User user) {
         this.title = boardRequestDto.getTitle();
@@ -101,16 +89,5 @@ public class Board extends Timestamped {
         this.endDate = boardRequestDto.getEndDate();
         this.contents = boardRequestDto.getContents();
     }
-
-//    public void addThumbsup(Thumbsup thumbsup) {
-//        this.thumbsups.add(thumbsup);
-//        thumbsup.setBoard(this);
-//    }
-//
-//    public void cancelThumbsup(Thumbsup thumbsup) {
-//        this.thumbsups.remove(thumbsup);
-//        thumbsup.setBoard(null);
-//    }
-
 
 }

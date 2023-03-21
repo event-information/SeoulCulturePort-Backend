@@ -14,16 +14,15 @@ public class CommentResponseDto {
     private Long id;
     private String comment;
     private String nickname;
-    private String createdat;
-
     private int thumbsUpCount;
+    private String createdat;
 
     public CommentResponseDto(Comment comment) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.id = comment.getId();
         this.comment = comment.getComment();
-
         this.nickname = comment.getNickname();
+        this.thumbsUpCount = comment.getCommentLikeList().size();
         this.createdat = comment.getCreatedAt().format(formatter);
     }
 

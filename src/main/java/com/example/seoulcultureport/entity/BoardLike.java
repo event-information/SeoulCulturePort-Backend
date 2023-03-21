@@ -23,10 +23,10 @@ public class BoardLike {
     @Column(nullable = false)
     private Long boardid;
 
-    @Enumerated(EnumType.STRING)
-    private ThumbsupStatus thumbsupStatus;
+    @Column(nullable = false)
+    private boolean thumbsupStatus;
 
-    public BoardLike(Long userid, Long board, ThumbsupStatus thumbsupStatus) {
+    public BoardLike(Long userid, Long board, boolean thumbsupStatus) {
         this.userid = userid;
         this.boardid = board;
         this.thumbsupStatus = thumbsupStatus;

@@ -38,13 +38,4 @@ public class CommentController {
         return commentService.addThumbsup(boardId, commentId, userDetails.getUser());
     }
 
-//    @PostMapping("/comments/{commentId}/thumbsup")
-//    public ThumbsupResponseDto addThumbsup(@PathVariable Long commentId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return commentService.addThumbsup(commentId, userDetails.getUser());
-//    }
-//
-//    @DeleteMapping("comments/{commentId}/thumbsup/{thumbsupId}")
-//    public ThumbsupResponseDto cancelThumbsup(@PathVariable Long commentId, @PathVariable Long thumbsupId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-//        return commentService.cancelThumbsup(commentId, thumbsupId, userDetails.getUser());
-//    }
 }

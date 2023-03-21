@@ -129,45 +129,12 @@ public class BoardService {
         Optional<BoardLike> getLike = boardLikeRepository.findByBoardidAndUserid(boardId, user.getId());
 
         if (getLike.isEmpty()) {
-            BoardLike boardLikeSave = boardLikeRepository.save(new BoardLike(user.getId(), board.getId(), ThumbsupStatus.ACTIVE));
-            return new ThumbsupResponseDto(StatusEnum.OK, boardLikeSave.getId(), boardLikeSave.getThumbsupStatus());
+            BoardLike boardLikeSave = boardLikeRepository.save(new BoardLike(user.getId(), board.getId(), true));
+            return new ThumbsupResponseDto(StatusEnum.OK, boardLikeSave.getId(), boardLikeSave.isThumbsupStatus());
         } else {
             boardLikeRepository.deleteByBoardidAndUserid(boardId, user.getId());
-            return new ThumbsupResponseDto(StatusEnum.OK, null, ThumbsupStatus.CANCELED);
+            return new ThumbsupResponseDto(StatusEnum.OK, null, false);
         }
     }
 
-
-//    @Transactional
-//    public ThumbsupResponseDto addThumbsup(Long boardId, User user) {
-//        Board board = boardRepository.findById(boardId)
-//                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL));
-//        Thumbsup thumbsupStatus = thumbsupRepository.findByBoardIdAndUserId(boardId, user.getId())
-//                .orElse(null);
-//        if(thumbsupStatus != null) {
-//            throw new ApiException(ExceptionEnum.ALREADY_THUMBSUP);
-//        }
-//        Thumbsup thumbsup = new Thumbsup();
-//        thumbsup.setBoard(board);
-//        thumbsup.setUser(user);
-//        thumbsup.setThumbsupStatus(ThumbsupStatus.ACTIVE);
-//        board.addThumbsup(thumbsup);
-//        Thumbsup savedThumbsup = thumbsupRepository.save(thumbsup);
-//        return new ThumbsupResponseDto(StatusEnum.OK, savedThumbsup.getId(), savedThumbsup.getThumbsupStatus());
-//    }
-//
-//    @Transactional
-//    public ThumbsupResponseDto cancelThumbsup(Long boardId, Long thumbsId, User user) {
-//        Board board = boardRepository.findById(boardId)
-//                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL));
-//        Thumbsup thumbsupStatus = thumbsupRepository.findById(thumbsId)
-//                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_THUMBSUP));
-//        if(!thumbsupStatus.getUser().getId().equals(user.getId())) {
-//            throw new ApiException(ExceptionEnum.TOKEN_ERROR);
-//        }
-//        thumbsupStatus.setThumbsupStatus(ThumbsupStatus.CANCELED);
-//        board.cancelThumbsup(thumbsupStatus);
-//        Thumbsup deletedThumbsup = thumbsupRepository.save(thumbsupStatus);
-//        return new ThumbsupResponseDto(StatusEnum.OK, deletedThumbsup.getId(), deletedThumbsup.getThumbsupStatus());
-//    }
 }

@@ -29,7 +29,7 @@ public class BoardListResponseDto {
         this.region = board.getRegion();
         this.startDate = board.getStartDate();
         this.endDate = board.getEndDate();
-        this.cmtCount = board.getCmtCount();
+        this.cmtCount = board.getComments().size();
         this.nickname = board.getNickname();
         this.createdat = board.getCreatedAt().format(formatter);
 

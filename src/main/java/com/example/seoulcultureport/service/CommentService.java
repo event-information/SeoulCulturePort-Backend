@@ -30,7 +30,6 @@ public class CommentService {
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
         Comment comment = commentRepository.saveAndFlush(new Comment(req, board, user));
-        board.plusCmtCount();
         boardRepository.save(board);
         return new MessageResponseDto(StatusEnum.OK);
     }
@@ -57,7 +56,6 @@ public class CommentService {
         if (user.getId().equals(comment.getUserid())) {
             commentRepository.deleteById(commentId);
             Board board = comment.getBoard();
-            board.minusCmtCount();
             boardRepository.save(board);
             return new MessageResponseDto(StatusEnum.OK);
         } else {
@@ -65,6 +63,7 @@ public class CommentService {
         }
     }
 
+    @Transactional
     public ThumbsupResponseDto addThumbsup(Long boardId, Long commentId, User user) {
 
         Comment comment = commentRepository.findById(commentId).orElseThrow(
@@ -74,59 +73,12 @@ public class CommentService {
         Optional<CommentLike> getLike = commentLikeRepository.findByBoardidAndCommentidAndUserid(user.getId(), boardId, commentId);
 
         if (getLike.isEmpty()) {
-            CommentLike commentLike = commentLikeRepository.save(new CommentLike(user.getId(), boardId, commentId, ThumbsupStatus.ACTIVE));
+            CommentLike commentLike = commentLikeRepository.save(new CommentLike(user.getId(), boardId, comment.getId(), true));
+            return new ThumbsupResponseDto(StatusEnum.OK, commentLike.getId(), commentLike.isThumbsupStatus());
+        } else {
+            commentLikeRepository.deleteByBoardidAndCommentidAndUserid(boardId, commentId, user.getId());
+            return new ThumbsupResponseDto((StatusEnum.OK), null, false);
         }
-        return null;
     }
 
-//    @Transactional
-//    public ThumbsupResponseDto addThumbsup(Long boardId, User user) {
-//
-//        Board board = boardRepository.findById(boardId).orElseThrow(
-//                () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
-//        );
-//
-//        Optional<BoardLike> getLike = boardLikeRepository.findByBoardidAndUserid(boardId, user.getId());
-//
-//        if (getLike.isEmpty()) {
-//            BoardLike boardLikeSave = boardLikeRepository.save(new BoardLike(user.getId(), board.getId(), ThumbsupStatus.ACTIVE));
-//            return new ThumbsupResponseDto(StatusEnum.OK, boardLikeSave.getId(), boardLikeSave.getThumbsupStatus());
-//        } else {
-//            boardLikeRepository.deleteByBoardidAndUserid(boardId, user.getId());
-//            return new ThumbsupResponseDto(StatusEnum.OK, null, ThumbsupStatus.CANCELED);
-//        }
-//    }
-
-//    @Transactional
-//    public ThumbsupResponseDto addThumbsup(Long commentId, User user) {
-//        Comment comment = commentRepository.findById(commentId)
-//                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL));
-//        Thumbsup thumbsupStatus = thumbsupRepository.findByCommentIdAndUserId(commentId, user.getId())
-//                .orElse(null);
-//        if(thumbsupStatus != null) {
-//            throw new ApiException(ExceptionEnum.ALREADY_THUMBSUP);
-//        }
-//        Thumbsup thumbsup = new Thumbsup();
-//        thumbsup.setComment(comment);
-//        thumbsup.setUser(user);
-//        thumbsup.setThumbsupStatus(ThumbsupStatus.ACTIVE);
-//        comment.addThumbsup(thumbsup);
-//        Thumbsup savedThumbsup = thumbsupRepository.save(thumbsup);
-//        return new ThumbsupResponseDto(StatusEnum.OK, savedThumbsup.getId(), savedThumbsup.getThumbsupStatus());
-//    }
-//
-//    @Transactional
-//    public ThumbsupResponseDto cancelThumbsup(Long commentId, Long thumbsId, User user) {
-//        Comment comment = commentRepository.findById(commentId)
-//                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_COMMENT_ALL));
-//        Thumbsup thumbsupStatus = thumbsupRepository.findById(thumbsId)
-//                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_THUMBSUP));
-//        if(!thumbsupStatus.getUser().getId().equals(user.getId())) {
-//            throw new ApiException(ExceptionEnum.TOKEN_ERROR);
-//        }
-//        thumbsupStatus.setThumbsupStatus(ThumbsupStatus.CANCELED);
-//        comment.cancelThumbsup(thumbsupStatus);
-//        Thumbsup deletedThumbsup = thumbsupRepository.save(thumbsupStatus);
-//        return new ThumbsupResponseDto(StatusEnum.OK, deletedThumbsup.getId(), deletedThumbsup.getThumbsupStatus());
-//    }
 }
