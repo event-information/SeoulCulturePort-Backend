@@ -111,6 +111,10 @@ public class UserService {
         String passwordNew = checkPwRequestDto.getPasswordNew();
         String passwordCheck = checkPwRequestDto.getPasswordCheck();
 
+        if (password.equals(passwordNew)) {
+            throw new ApiException(ExceptionEnum.PASSWORD_SAME);
+        }
+
         User foundUser = userRepository.findByUsername(userid).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_USER)
         );
