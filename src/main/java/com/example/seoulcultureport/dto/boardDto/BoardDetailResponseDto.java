@@ -24,6 +24,7 @@ public class BoardDetailResponseDto {
     private int cmtCount;
     private String username;
     private String createdat;
+    private String nickname;
 
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
@@ -41,6 +42,7 @@ public class BoardDetailResponseDto {
         this.contents = board.getContents();
         this.cmtCount = board.getCmtCount();
         this.username = board.getUsername();
+        this.nickname = board.getNickname();
         this.createdat = board.getCreatedAt().format(formatter);
 
         for (Comment comment : board.getComments()) {
