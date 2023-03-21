@@ -4,6 +4,7 @@ import com.example.seoulcultureport.dto.ThumbsupStatus;
 import com.example.seoulcultureport.dto.commentDto.CommentResponseDto;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
+import com.example.seoulcultureport.entity.User;
 import lombok.Getter;
 
 import java.time.format.DateTimeFormatter;
@@ -30,7 +31,7 @@ public class BoardDetailResponseDto {
     private ThumbsupStatus boardThumbsupStatus = ThumbsupStatus.CANCELED;
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
-    public BoardDetailResponseDto(Board board) {
+    public BoardDetailResponseDto(Board board, User user) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.id = board.getId();
         this.title = board.getTitle();
@@ -47,13 +48,15 @@ public class BoardDetailResponseDto {
         this.nickname = board.getNickname();
         this.createdat = board.getCreatedAt().format(formatter);
         this.thumbsUpCount = board.getThumbsups().size();
-        this.boardThumbsupStatus = board.boardThumbsupByUser(board.getUserid());
 
-
-
+        if (user != null) {
+            this.boardThumbsupStatus = board.boardThumbsupByUser(user.getId());
+        } else {
+            this.boardThumbsupStatus = ThumbsupStatus.CANCELED;
+        }
 
         for (Comment comment : board.getComments()) {
-            commentList.add(new CommentResponseDto(comment));
+            commentList.add(new CommentResponseDto(comment, user));
 
         }
     }
