@@ -26,6 +26,8 @@ public class BoardDetailResponseDto {
     private String createdat;
     private String nickname;
 
+    private int thumbsUpCount;
+
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
     public BoardDetailResponseDto(Board board) {
@@ -44,6 +46,7 @@ public class BoardDetailResponseDto {
         this.username = board.getUsername();
         this.nickname = board.getNickname();
         this.createdat = board.getCreatedAt().format(formatter);
+        this.thumbsUpCount = board.getThumbsups().size();
 
         for (Comment comment : board.getComments()) {
             commentList.add(new CommentResponseDto(comment));
