@@ -1,8 +1,7 @@
 package com.example.seoulcultureport.dto.boardDto;
 
 import com.example.seoulcultureport.dto.commentDto.CommentResponseDto;
-import com.example.seoulcultureport.entity.Board;
-import com.example.seoulcultureport.entity.Comment;
+import com.example.seoulcultureport.entity.*;
 import lombok.Getter;
 
 import java.time.format.DateTimeFormatter;
@@ -26,11 +25,11 @@ public class BoardDetailResponseDto {
     private String nickname;
     private String createdat;
     private int thumbsUpCount;
-
+    private boolean thumbsStatus;
 
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
-    public BoardDetailResponseDto(Board board) {
+    public BoardDetailResponseDto(User user, Board board, boolean thumbsStatus) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.id = board.getId();
         this.title = board.getTitle();
@@ -47,9 +46,10 @@ public class BoardDetailResponseDto {
         this.nickname = board.getNickname();
         this.createdat = board.getCreatedAt().format(formatter);
         this.thumbsUpCount = board.getBoardLikeList().size();
+        this.thumbsStatus = thumbsStatus;
 
         for (Comment comment : board.getComments()) {
-            commentList.add(new CommentResponseDto(comment));
+            commentList.add(new CommentResponseDto(comment, (CommentLike) comment.getCommentLikeList(), user));
         }
     }
 

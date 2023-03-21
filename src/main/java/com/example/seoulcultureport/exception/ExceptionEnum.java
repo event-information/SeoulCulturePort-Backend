@@ -20,7 +20,7 @@ public enum ExceptionEnum {
     NOT_FOUND_TOKEN(HttpStatus.UNAUTHORIZED, "토큰 값이 Null 입니다."), //401
     UNAVAILABLE_FOR_LEGAL_REASONS(HttpStatus.BAD_REQUEST, "시작일이 종료일보다 같거나 빠를 수 없습니다."), //400
     ALREADY_THUMBSUP(HttpStatus.BAD_REQUEST, "이미 좋아요를 누르셨습니다."),
-    NOT_FOUND_THUMBSUP(HttpStatus.BAD_REQUEST, "취소 할 좋아요가 없습니다.");
+    NOT_FOUND_THUMBSUP(HttpStatus.BAD_REQUEST, "좋아요 내역이 없습니다.");
 
     private HttpStatus status;
     private String message;

@@ -3,7 +3,6 @@ package com.example.seoulcultureport.service;
 import com.example.seoulcultureport.dto.MessageResponseDto;
 import com.example.seoulcultureport.dto.StatusEnum;
 import com.example.seoulcultureport.dto.ThumbsupResponseDto;
-import com.example.seoulcultureport.dto.ThumbsupStatus;
 import com.example.seoulcultureport.dto.boardDto.BoardDetailResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardListResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
@@ -104,8 +103,12 @@ public class BoardService {
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
-
-        return new BoardDetailResponseDto(board);
+        Optional boardLike = boardLikeRepository.findByBoardidAndUserid(user.getId(), boardId);
+        if (boardLike.isEmpty()) {
+            return new BoardDetailResponseDto(user, board, false);
+        } else {
+            return new BoardDetailResponseDto(user, board, true);
+        }
     }
 
     // 내 게시글 리스트 - 토큰 o
