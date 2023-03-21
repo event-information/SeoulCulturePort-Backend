@@ -5,12 +5,10 @@ import com.example.seoulcultureport.dto.boardDto.BoardDetailResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardListResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
 import com.example.seoulcultureport.dto.boardDto.BoardSimpleResponseDto;
-import com.example.seoulcultureport.entity.Board;
-import com.example.seoulcultureport.entity.Comment;
-import com.example.seoulcultureport.entity.Thumbsup;
-import com.example.seoulcultureport.entity.User;
+import com.example.seoulcultureport.entity.*;
 import com.example.seoulcultureport.exception.ApiException;
 import com.example.seoulcultureport.exception.ExceptionEnum;
+import com.example.seoulcultureport.repository.BoardLikeRepository;
 import com.example.seoulcultureport.repository.BoardRepository;
 import com.example.seoulcultureport.repository.ThumbsupRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,35 +19,37 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-@Service @RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class BoardService {
 
     private final BoardRepository boardRepository;
-
+    private final BoardLikeRepository boardLikeRepository;
     private final ThumbsupRepository thumbsupRepository;
 
-            //날짜 string 예외처리
-        private void validateBoard(Board board) {
-            String startDateStr = board.getStartDate();
-            String endDateStr = board.getEndDate();
+    //날짜 string 예외처리
+    private void validateBoard(Board board) {
+        String startDateStr = board.getStartDate();
+        String endDateStr = board.getEndDate();
 
-            // startDate와 endDate를 LocalDate 타입으로 변환
-            LocalDate startDate = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            LocalDate endDate = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        // startDate와 endDate를 LocalDate 타입으로 변환
+        LocalDate startDate = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate endDate = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            // startDate가 endDate보다 날짜가 같거나 빠른 경우 예외 처리
-            if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
-                throw new ApiException(ExceptionEnum.UNAVAILABLE_FOR_LEGAL_REASONS);
-            }
+        // startDate가 endDate보다 날짜가 같거나 빠른 경우 예외 처리
+        if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
+            throw new ApiException(ExceptionEnum.UNAVAILABLE_FOR_LEGAL_REASONS);
         }
+    }
 
     // 글생성
     @Transactional
     public MessageResponseDto writeBoard(BoardRequestDto boardRequestDto, User user) {
-            Board board = new Board(boardRequestDto, user);
-            validateBoard(board);
-            boardRepository.saveAndFlush(new Board(boardRequestDto, user));
+        Board board = new Board(boardRequestDto, user);
+        validateBoard(board);
+        boardRepository.saveAndFlush(new Board(boardRequestDto, user));
         return new MessageResponseDto(StatusEnum.OK);
     }
 
@@ -57,7 +57,7 @@ public class BoardService {
     @Transactional
     public MessageResponseDto updateBoard(Long boardId,
                                           BoardRequestDto boardRequestDto,
-                                          User user ) {
+                                          User user) {
 
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
@@ -77,8 +77,8 @@ public class BoardService {
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
-        if(!board.getUserid().equals(user.getId())) {
-            throw  new ApiException(ExceptionEnum.NOT_FOUND_POST);
+        if (!board.getUserid().equals(user.getId())) {
+            throw new ApiException(ExceptionEnum.NOT_FOUND_POST);
         }
         boardRepository.deleteById(boardId);
         return new MessageResponseDto(StatusEnum.OK);
@@ -95,12 +95,13 @@ public class BoardService {
         return boardListResponseDtos;
     }
 
-    // 상세페이지  -토큰 x
+    // 상세페이지  -토큰 o
     @Transactional(readOnly = true)
-    public BoardDetailResponseDto getBoardDetailList(Long boardId) {
+    public BoardDetailResponseDto getBoardDetailList(Long boardId, User user) {
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
+
         return new BoardDetailResponseDto(board);
     }
 
@@ -115,36 +116,55 @@ public class BoardService {
         return boardSimpleResponseDtos;
     }
 
-    @Transactional
-    public ThumbsupResponseDto addThumbsup(Long boardId, User user) {
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL));
-        Thumbsup thumbsupStatus = thumbsupRepository.findByBoardIdAndUserId(boardId, user.getId())
-                .orElse(null);
-        if(thumbsupStatus != null) {
-            throw new ApiException(ExceptionEnum.ALREADY_THUMBSUP);
+    public MessageResponseDto addThumbsup(Long boardId, User user) {
+
+        Board board = boardRepository.findById(boardId).orElseThrow(
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
+        );
+
+        Optional<BoardLike> getLike = boardLikeRepository.findByBoardIdAndUserId(boardId, user.getId());
+
+        BoardLike boardLike;
+        if (getLike.isEmpty()) {
+            boardLikeRepository.save(new BoardLike(user.getId(), board));
+            return new MessageResponseDto(StatusEnum.LIKEOK);
+        } else {
+            Optional<BoardLike> likedelete = boardLikeRepository.deleteByBoardIdAndUserId(boardId, user.getId());
+            return new MessageResponseDto(StatusEnum.LIKE_CANCLE);
         }
-        Thumbsup thumbsup = new Thumbsup();
-        thumbsup.setBoard(board);
-        thumbsup.setUser(user);
-        thumbsup.setThumbsupStatus(ThumbsupStatus.ACTIVE);
-        board.addThumbsup(thumbsup);
-        Thumbsup savedThumbsup = thumbsupRepository.save(thumbsup);
-        return new ThumbsupResponseDto(StatusEnum.OK, savedThumbsup.getId(), savedThumbsup.getThumbsupStatus());
     }
 
-    @Transactional
-    public ThumbsupResponseDto cancelThumbsup(Long boardId, Long thumbsId, User user) {
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL));
-        Thumbsup thumbsupStatus = thumbsupRepository.findById(thumbsId)
-                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_THUMBSUP));
-        if(!thumbsupStatus.getUser().getId().equals(user.getId())) {
-            throw new ApiException(ExceptionEnum.TOKEN_ERROR);
-        }
-        thumbsupStatus.setThumbsupStatus(ThumbsupStatus.CANCELED);
-        board.cancelThumbsup(thumbsupStatus);
-        Thumbsup deletedThumbsup = thumbsupRepository.save(thumbsupStatus);
-        return new ThumbsupResponseDto(StatusEnum.OK, deletedThumbsup.getId(), deletedThumbsup.getThumbsupStatus());
-    }
+
+//    @Transactional
+//    public ThumbsupResponseDto addThumbsup(Long boardId, User user) {
+//        Board board = boardRepository.findById(boardId)
+//                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL));
+//        Thumbsup thumbsupStatus = thumbsupRepository.findByBoardIdAndUserId(boardId, user.getId())
+//                .orElse(null);
+//        if(thumbsupStatus != null) {
+//            throw new ApiException(ExceptionEnum.ALREADY_THUMBSUP);
+//        }
+//        Thumbsup thumbsup = new Thumbsup();
+//        thumbsup.setBoard(board);
+//        thumbsup.setUser(user);
+//        thumbsup.setThumbsupStatus(ThumbsupStatus.ACTIVE);
+//        board.addThumbsup(thumbsup);
+//        Thumbsup savedThumbsup = thumbsupRepository.save(thumbsup);
+//        return new ThumbsupResponseDto(StatusEnum.OK, savedThumbsup.getId(), savedThumbsup.getThumbsupStatus());
+//    }
+//
+//    @Transactional
+//    public ThumbsupResponseDto cancelThumbsup(Long boardId, Long thumbsId, User user) {
+//        Board board = boardRepository.findById(boardId)
+//                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL));
+//        Thumbsup thumbsupStatus = thumbsupRepository.findById(thumbsId)
+//                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_THUMBSUP));
+//        if(!thumbsupStatus.getUser().getId().equals(user.getId())) {
+//            throw new ApiException(ExceptionEnum.TOKEN_ERROR);
+//        }
+//        thumbsupStatus.setThumbsupStatus(ThumbsupStatus.CANCELED);
+//        board.cancelThumbsup(thumbsupStatus);
+//        Thumbsup deletedThumbsup = thumbsupRepository.save(thumbsupStatus);
+//        return new ThumbsupResponseDto(StatusEnum.OK, deletedThumbsup.getId(), deletedThumbsup.getThumbsupStatus());
+//    }
 }

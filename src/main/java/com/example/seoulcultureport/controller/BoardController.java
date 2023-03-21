@@ -8,6 +8,7 @@ import com.example.seoulcultureport.dto.boardDto.BoardSimpleResponseDto;
 import com.example.seoulcultureport.security.UserDetailsImpl;
 import com.example.seoulcultureport.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,10 +52,12 @@ public class BoardController {
         return boardService.getBoardList();
     }
 
-    // 상세페이지 (토큰 x)
+    // 상세페이지 (토큰 o)
     @GetMapping("/detail/{boardId}")
-    public BoardDetailResponseDto getBoardDetailList(@PathVariable Long boardId) {
-        return boardService.getBoardDetailList(boardId);
+    public BoardDetailResponseDto getBoardDetailList(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.getBoardDetailList(boardId, userDetails.getUser());
     }
 
 
@@ -64,15 +67,22 @@ public class BoardController {
         return boardService.getBoardMyList(userDetails.getUser());
     }
 
-    @PostMapping("/{boardId}/thumbsup")
-    public ThumbsupResponseDto addThumbsup(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return boardService.addThumbsup(boardId, userDetails.getUser());
+    @GetMapping("/{boardId}/thumbsup")
+    public ResponseEntity addThumbsup(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return ResponseEntity.ok().body(boardService.addThumbsup(boardId, userDetails.getUser()));
     }
 
-    @DeleteMapping("/{boardId}/thumbsup/{thumbsupId}")
-    public ThumbsupResponseDto cancelThumbsup(@PathVariable Long boardId, @PathVariable Long thumbsupId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return boardService.cancelThumbsup(boardId, thumbsupId, userDetails.getUser());
-    }
+//    @PostMapping("/{boardId}/thumbsup")
+//    public ThumbsupResponseDto addThumbsup(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        return boardService.addThumbsup(boardId, userDetails.getUser());
+//    }
+//
+//    @DeleteMapping("/{boardId}/thumbsup/{thumbsupId}")
+//    public ThumbsupResponseDto cancelThumbsup(@PathVariable Long boardId, @PathVariable Long thumbsupId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+//        return boardService.cancelThumbsup(boardId, thumbsupId, userDetails.getUser());
+//    }
 
 
 }

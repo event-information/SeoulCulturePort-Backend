@@ -60,8 +60,12 @@ public class Board extends Timestamped {
     @OrderBy(value = "createdAt DESC")
     private List<Comment> comments = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Thumbsup> thumbsups = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name = "board_like")
+    List<BoardLike> boardLikeList = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<Thumbsup> thumbsups = new ArrayList<>();
 
     public void plusCmtCount() {this.cmtCount ++;}
     public void minusCmtCount() {this.cmtCount --;}
