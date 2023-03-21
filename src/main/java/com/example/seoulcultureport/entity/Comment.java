@@ -1,5 +1,6 @@
 package com.example.seoulcultureport.entity;
 
+import com.example.seoulcultureport.dto.ThumbsupStatus;
 import com.example.seoulcultureport.dto.commentDto.CommentRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -60,6 +61,15 @@ public class Comment extends Timestamped{
     public void cancelThumbsup(Thumbsup thumbsup) {
         this.thumbsups.remove(thumbsup);
         thumbsup.setComment(null);
+    }
+
+    public ThumbsupStatus commentThumbsupByUser(Long userid) {
+        for(Thumbsup thumbsup : this.thumbsups) {
+            if(thumbsup.getUser().getId().equals(userid)) {
+                return thumbsup.getThumbsupStatus();
+            }
+        }
+        return ThumbsupStatus.CANCELED;
     }
 
 }

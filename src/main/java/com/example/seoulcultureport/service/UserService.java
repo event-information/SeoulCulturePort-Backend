@@ -153,4 +153,10 @@ public class UserService {
 
         return new MessageResponseDto(StatusEnum.OK);
     }
+
+    public User getUserByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_USER)
+        );
+    }
 }

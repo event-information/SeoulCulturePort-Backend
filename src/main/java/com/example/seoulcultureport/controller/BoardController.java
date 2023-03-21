@@ -5,8 +5,10 @@ import com.example.seoulcultureport.dto.boardDto.BoardDetailResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardListResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
 import com.example.seoulcultureport.dto.boardDto.BoardSimpleResponseDto;
+import com.example.seoulcultureport.entity.User;
 import com.example.seoulcultureport.security.UserDetailsImpl;
 import com.example.seoulcultureport.service.BoardService;
+import com.example.seoulcultureport.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +23,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardService boardService;
+    private final UserService userService;
 
     // 글생성
     @PostMapping("/")
@@ -53,8 +56,12 @@ public class BoardController {
 
     // 상세페이지 (토큰 x)
     @GetMapping("/detail/{boardId}")
-    public BoardDetailResponseDto getBoardDetailList(@PathVariable Long boardId) {
-        return boardService.getBoardDetailList(boardId);
+    public BoardDetailResponseDto getBoardDetailList(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        User user = null;
+        if(userDetails != null) {
+            user = userService.getUserByUsername(userDetails.getUsername());
+        }
+        return boardService.getBoardDetailList(boardId, user);
     }
 
 

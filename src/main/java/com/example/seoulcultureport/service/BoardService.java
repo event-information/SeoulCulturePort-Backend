@@ -97,11 +97,11 @@ public class BoardService {
 
     // 상세페이지  -토큰 x
     @Transactional(readOnly = true)
-    public BoardDetailResponseDto getBoardDetailList(Long boardId) {
+    public BoardDetailResponseDto getBoardDetailList(Long boardId, User user) {
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
-        return new BoardDetailResponseDto(board);
+        return new BoardDetailResponseDto(board, user);
     }
 
     // 내 게시글 리스트 - 토큰 o
