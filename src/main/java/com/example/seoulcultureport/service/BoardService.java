@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service @RequiredArgsConstructor
 public class BoardService {
@@ -95,13 +96,16 @@ public class BoardService {
         return boardListResponseDtos;
     }
 
-    // 상세페이지  -토큰 x
+    // 상세페이지  -토큰 o
     @Transactional(readOnly = true)
-    public BoardDetailResponseDto getBoardDetailList(Long boardId) {
+    public BoardDetailResponseDto getBoardDetailList(Long boardId, User user) {
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
-        return new BoardDetailResponseDto(board);
+        Thumbsup thumbsup = thumbsupRepository.findByBoardIdAndUserId(boardId, user.getId()).orElseThrow(
+                () -> new ApiException(ExceptionEnum.THUMBSUP_STATUS)
+        );
+        return new BoardDetailResponseDto(board, thumbsup);
     }
 
     // 내 게시글 리스트 - 토큰 o

@@ -51,10 +51,12 @@ public class BoardController {
         return boardService.getBoardList();
     }
 
-    // 상세페이지 (토큰 x)
+    // 상세페이지 (토큰 o)
     @GetMapping("/detail/{boardId}")
-    public BoardDetailResponseDto getBoardDetailList(@PathVariable Long boardId) {
-        return boardService.getBoardDetailList(boardId);
+    public BoardDetailResponseDto getBoardDetailList(
+            @PathVariable Long boardId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.getBoardDetailList(boardId, userDetails.getUser());
     }
 
 
