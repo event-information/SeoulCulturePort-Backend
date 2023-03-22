@@ -13,6 +13,7 @@ public class BoardSimpleResponseDto {
     private String contents;
     private int cmtCount;
     private String nickname;
+    private int thumbsUpCount;
     private String createdat;
 
     public BoardSimpleResponseDto(Board board) {
@@ -23,6 +24,7 @@ public class BoardSimpleResponseDto {
         this.contents = board.getContents();
         this.cmtCount = board.getCmtCount();
         this.nickname = board.getNickname();
+        this.thumbsUpCount = board.getThumbsups().size();
         this.createdat = board.getCreatedAt().format(formatter);
 
     }

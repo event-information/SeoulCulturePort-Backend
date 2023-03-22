@@ -19,6 +19,7 @@ public class BoardListResponseDto {
     private int cmtCount;
     private String nickname;
     private String createdat;
+    private int thumbsUpCount;
 
     public BoardListResponseDto(Board board) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -31,6 +32,7 @@ public class BoardListResponseDto {
         this.endDate = board.getEndDate();
         this.cmtCount = board.getCmtCount();
         this.nickname = board.getNickname();
+        this.thumbsUpCount = board.getThumbsups().size();
         this.createdat = board.getCreatedAt().format(formatter);
 
     }
