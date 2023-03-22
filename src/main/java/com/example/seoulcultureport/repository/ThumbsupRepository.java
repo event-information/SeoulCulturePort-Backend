@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface ThumbsupRepository extends JpaRepository<Thumbsup, Long> {
     Optional<Thumbsup> findByCommentIdAndUserId(Long commentId, Long userId);
     Optional<Thumbsup> findByBoardIdAndUserId(Long boardId, Long userId);
+
+    Optional<Thumbsup> deleteByBoardIdAndUserId(Long boardId, Long userId);
 }

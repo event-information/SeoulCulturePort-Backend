@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service @RequiredArgsConstructor
 public class BoardService {
@@ -115,23 +116,23 @@ public class BoardService {
         return boardSimpleResponseDtos;
     }
 
-    @Transactional
-    public ThumbsupResponseDto addThumbsup(Long boardId, User user) {
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL));
-        Thumbsup thumbsupStatus = thumbsupRepository.findByBoardIdAndUserId(boardId, user.getId())
-                .orElse(null);
-        if(thumbsupStatus != null) {
-            throw new ApiException(ExceptionEnum.ALREADY_THUMBSUP);
-        }
-        Thumbsup thumbsup = new Thumbsup();
-        thumbsup.setBoard(board);
-        thumbsup.setUser(user);
-        thumbsup.setThumbsupStatus(ThumbsupStatus.ACTIVE);
-        board.addThumbsup(thumbsup);
-        Thumbsup savedThumbsup = thumbsupRepository.save(thumbsup);
-        return new ThumbsupResponseDto(StatusEnum.OK, savedThumbsup.getId(), savedThumbsup.getThumbsupStatus());
-    }
+//    @Transactional
+//    public ThumbsupResponseDto addThumbsup(Long boardId, User user) {
+//        Board board = boardRepository.findById(boardId)
+//                .orElseThrow(() -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL));
+//        Thumbsup thumbsupStatus = thumbsupRepository.findByBoardIdAndUserId(boardId, user.getId())
+//                .orElse(null);
+//        if(thumbsupStatus != null) {
+//            throw new ApiException(ExceptionEnum.ALREADY_THUMBSUP);
+//        }
+//        Thumbsup thumbsup = new Thumbsup();
+//        thumbsup.setBoard(board);
+//        thumbsup.setUser(user);
+//        thumbsup.setThumbsupStatus(ThumbsupStatus.ACTIVE);
+//        board.addThumbsup(thumbsup);
+//        Thumbsup savedThumbsup = thumbsupRepository.save(thumbsup);
+//        return new ThumbsupResponseDto(StatusEnum.OK, savedThumbsup.getId(), savedThumbsup.getThumbsupStatus());
+//    }
 
     @Transactional
     public ThumbsupResponseDto cancelThumbsup(Long boardId, Long thumbsId, User user) {
@@ -146,5 +147,23 @@ public class BoardService {
         board.cancelThumbsup(thumbsupStatus);
         Thumbsup deletedThumbsup = thumbsupRepository.save(thumbsupStatus);
         return new ThumbsupResponseDto(StatusEnum.OK, deletedThumbsup.getId(), deletedThumbsup.getThumbsupStatus());
+    }
+
+    @Transactional
+    public ThumbsupResponseDto addThumbsup(Long boardId, User user) {
+
+        Board board = boardRepository.findById(boardId).orElseThrow(
+                () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
+        );
+
+        Optional<Thumbsup> getLike = thumbsupRepository.findByBoardIdAndUserId(boardId, user.getId());
+
+        if (getLike.isEmpty()) {
+            Thumbsup thumbsupSave = thumbsupRepository.save(new Thumbsup(user.getId(), board.getId(), true));
+            return new ThumbsupResponseDto(StatusEnum.OK, thumbsupSave.getId(), thumbsupSave.isThumbsupStatus());
+        } else {
+            thumbsupRepository.deleteByBoardIdAndUserId(boardId, user.getId());
+            return new ThumbsupResponseDto(StatusEnum.OK, null, false);
+        }
     }
 }
