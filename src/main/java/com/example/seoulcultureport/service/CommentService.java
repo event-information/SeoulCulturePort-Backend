@@ -73,7 +73,7 @@ public class CommentService {
         Optional<CommentLike> getLike = commentLikeRepository.findByUseridAndBoardidAndCommentid(user.getId(), boardId, commentId);
 
         if (getLike.isEmpty()) {
-            CommentLike commentLikeSave = commentLikeRepository.save(new CommentLike(user.getId(), boardId, comment.getId(), true));
+            CommentLike commentLikeSave = commentLikeRepository.save(new CommentLike(user, comment.getBoard(), comment, true));
             return new ThumbsupResponseDto(StatusEnum.OK, commentLikeSave.getId(), commentLikeSave.isThumbsupStatus());
         } else {
             commentLikeRepository.deleteByUseridAndBoardidAndCommentid(user.getId(), boardId, commentId);

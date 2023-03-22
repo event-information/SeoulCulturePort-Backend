@@ -27,10 +27,25 @@ public class CommentLike {
     @Column(nullable = false)
     private boolean thumbsupStatus;
 
-    public CommentLike(Long id, Long boardid, Long commentid, boolean thumbsupStatus) {
-        this.userid = id;
-        this.boardid = boardid;
-        this.commentid = commentid;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "board_id")
+    private Board board;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "comment_id", nullable = false)
+    private Comment comment;
+
+    public CommentLike(User user, Board board, Comment comment, boolean thumbsupStatus) {
+        this.userid = user.getId();
+        this.user = user;
+        this.boardid = board.getId();
+        this.board = board;
+        this.commentid = comment.getId();
+        this.comment = comment;
         this.thumbsupStatus = thumbsupStatus;
     }
 }
