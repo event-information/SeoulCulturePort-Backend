@@ -38,7 +38,7 @@ public class BoardListResponseDto {
         this.endDate = board.getEndDate();
         this.cmtCount = board.getCmtCount();
         this.nickname = board.getNickname();
-        this.thumbsUpCount = board.getThumbsups().size();
+        this.thumbsUpCount = board.getBoardLikes().size();
         this.createdat = board.getCreatedAt().format(formatter);
 
     }
