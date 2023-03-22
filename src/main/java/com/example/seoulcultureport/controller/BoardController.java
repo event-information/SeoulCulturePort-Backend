@@ -64,7 +64,6 @@ public class BoardController {
         return boardService.getBoardDetailList(boardId, user);
     }
 
-
     // 내 게시글 [리스트] (토큰 o)
     @GetMapping("/mylist")
     public List<BoardSimpleResponseDto> getBoardMyList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
@@ -72,14 +71,9 @@ public class BoardController {
     }
 
     @PostMapping("/{boardId}/thumbsup")
-    public ThumbsupResponseDto addThumbsup(@PathVariable Long boardId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public ThumbsupResponseDto addThumbsup(@PathVariable Long boardId,
+                                           @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
         return boardService.addThumbsup(boardId, userDetails.getUser());
     }
-
-    @DeleteMapping("/{boardId}/thumbsup/{thumbsupId}")
-    public ThumbsupResponseDto cancelThumbsup(@PathVariable Long boardId, @PathVariable Long thumbsupId, @AuthenticationPrincipal UserDetailsImpl userDetails) {
-        return boardService.cancelThumbsup(boardId, thumbsupId, userDetails.getUser());
-    }
-
-
 }
