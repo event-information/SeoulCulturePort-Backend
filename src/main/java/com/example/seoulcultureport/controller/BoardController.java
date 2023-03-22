@@ -64,7 +64,6 @@ public class BoardController {
         return boardService.getBoardDetailList(boardId, user);
     }
 
-
     // 내 게시글 [리스트] (토큰 o)
     @GetMapping("/mylist")
     public List<BoardSimpleResponseDto> getBoardMyList(@AuthenticationPrincipal UserDetailsImpl userDetails) {
