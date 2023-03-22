@@ -1,7 +1,7 @@
 package com.example.seoulcultureport.entity;
 
 
-import com.example.seoulcultureport.dto.ThumbsupStatus;
+
 import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -62,7 +62,7 @@ public class Board extends Timestamped {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Thumbsup> thumbsups = new ArrayList<>();
+    private List<BoardLike> boardLikes = new ArrayList<>();
 
     public void plusCmtCount() {this.cmtCount ++;}
     public void minusCmtCount() {this.cmtCount --;}
@@ -95,23 +95,23 @@ public class Board extends Timestamped {
         this.contents = boardRequestDto.getContents();
     }
 
-    public void addThumbsup(Thumbsup thumbsup) {
-        this.thumbsups.add(thumbsup);
-        thumbsup.setBoard(this);
+    public void addThumbsup(BoardLike boardLike) {
+        this.boardLikes.add(boardLike);
+        boardLike.setBoard(this);
     }
 
-    public void cancelThumbsup(Thumbsup thumbsup) {
-        this.thumbsups.remove(thumbsup);
-        thumbsup.setBoard(null);
+    public void cancelThumbsup(BoardLike boardLike) {
+        this.boardLikes.remove(boardLike);
+        boardLike.setBoard(null);
     }
 
-    public ThumbsupStatus boardThumbsupByUser(Long userid) {
-        for(Thumbsup thumbsup : this.thumbsups) {
-            if(thumbsup.getUser().getId().equals(userid)) {
-                return thumbsup.getThumbsupStatus();
+    public boolean boardThumbsupByUser(Long userid) {
+        for(BoardLike boardLike : this.boardLikes) {
+            if(boardLike.getUser().getId().equals(userid)) {
+                return true;
             }
         }
-        return ThumbsupStatus.CANCELED;
+        return false;
     }
 
 

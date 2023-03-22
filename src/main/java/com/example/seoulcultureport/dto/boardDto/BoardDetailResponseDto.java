@@ -1,6 +1,5 @@
 package com.example.seoulcultureport.dto.boardDto;
 
-import com.example.seoulcultureport.dto.ThumbsupStatus;
 import com.example.seoulcultureport.dto.commentDto.CommentResponseDto;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
@@ -28,7 +27,7 @@ public class BoardDetailResponseDto {
     private String createdat;
     private String nickname;
     private int thumbsUpCount;
-    private ThumbsupStatus boardThumbsupStatus = ThumbsupStatus.CANCELED;
+    private boolean boardThumbsupStatus;
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
     public BoardDetailResponseDto(Board board, User user) {
@@ -47,12 +46,12 @@ public class BoardDetailResponseDto {
         this.username = board.getUsername();
         this.nickname = board.getNickname();
         this.createdat = board.getCreatedAt().format(formatter);
-        this.thumbsUpCount = board.getThumbsups().size();
+        this.thumbsUpCount = board.getBoardLikes().size();
 
         if (user != null) {
             this.boardThumbsupStatus = board.boardThumbsupByUser(user.getId());
         } else {
-            this.boardThumbsupStatus = ThumbsupStatus.CANCELED;
+            this.boardThumbsupStatus = false;
         }
 
         for (Comment comment : board.getComments()) {
