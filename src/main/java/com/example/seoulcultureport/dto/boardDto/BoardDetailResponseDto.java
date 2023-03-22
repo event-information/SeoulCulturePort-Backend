@@ -1,12 +1,13 @@
 package com.example.seoulcultureport.dto.boardDto;
 
-import com.example.seoulcultureport.dto.ThumbsupStatus;
 import com.example.seoulcultureport.dto.commentDto.CommentResponseDto;
 import com.example.seoulcultureport.entity.Board;
 import com.example.seoulcultureport.entity.Comment;
 import com.example.seoulcultureport.entity.User;
 import lombok.Getter;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,11 +29,15 @@ public class BoardDetailResponseDto {
     private String createdat;
     private String nickname;
     private int thumbsUpCount;
-    private ThumbsupStatus boardThumbsupStatus = ThumbsupStatus.CANCELED;
+    private boolean boardThumbsupStatus;
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
     public BoardDetailResponseDto(Board board, User user) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        // 현재 시간을 KST로 설정
+        ZoneId kstZoneId = ZoneId.of("Asia/Seoul");
+        ZonedDateTime now = ZonedDateTime.now(kstZoneId);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(kstZoneId);
         this.id = board.getId();
         this.title = board.getTitle();
         this.image = board.getImage();
@@ -47,12 +52,12 @@ public class BoardDetailResponseDto {
         this.username = board.getUsername();
         this.nickname = board.getNickname();
         this.createdat = board.getCreatedAt().format(formatter);
-        this.thumbsUpCount = board.getThumbsups().size();
+        this.thumbsUpCount = board.getBoardLikes().size();
 
         if (user != null) {
             this.boardThumbsupStatus = board.boardThumbsupByUser(user.getId());
         } else {
-            this.boardThumbsupStatus = ThumbsupStatus.CANCELED;
+            this.boardThumbsupStatus = false;
         }
 
         for (Comment comment : board.getComments()) {

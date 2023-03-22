@@ -36,7 +36,7 @@ public class User {
     List<Board> boardList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Thumbsup> thumbsups = new ArrayList<>();
+    private List<BoardLike> boardLikes = new ArrayList<>();
 
     @OneToMany
     @JoinColumn(name = "userid")

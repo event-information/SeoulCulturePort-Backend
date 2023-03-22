@@ -1,7 +1,7 @@
 package com.example.seoulcultureport.entity;
 
-import com.example.seoulcultureport.dto.ThumbsupStatus;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -9,14 +9,15 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-public class Thumbsup {
+@NoArgsConstructor
+public class BoardLike {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id")
+    @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,12 +25,15 @@ public class Thumbsup {
     private Comment comment;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
-    @Enumerated(EnumType.STRING)
-    private ThumbsupStatus thumbsupStatus;
 
-    public Thumbsup(){
+    @Column(nullable = false)
+    private boolean thumbsupStatus;
 
+    public BoardLike(User user, Board board, boolean thumbsupStatus) {
+        this.user = user;
+        this.board = board;
+        this.thumbsupStatus = thumbsupStatus;
     }
 }
