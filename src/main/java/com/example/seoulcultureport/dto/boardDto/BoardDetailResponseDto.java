@@ -49,7 +49,7 @@ public class BoardDetailResponseDto {
         this.thumbsStatus = thumbsStatus;
 
         for (Comment comment : board.getComments()) {
-            commentList.add(new CommentResponseDto(comment, (CommentLike) comment.getCommentLikeList(), user));
+            commentList.add(new CommentResponseDto(comment));
         }
     }
 
