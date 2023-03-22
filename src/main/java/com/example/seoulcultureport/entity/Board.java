@@ -64,6 +64,10 @@ public class Board extends Timestamped {
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardLike> boardLikes = new ArrayList<>();
 
+    @OneToMany
+    @JoinColumn(name = "userid")
+    List<Comment> commentList = new ArrayList<>();
+
     public void plusCmtCount() {this.cmtCount ++;}
     public void minusCmtCount() {this.cmtCount --;}
 
@@ -94,17 +98,6 @@ public class Board extends Timestamped {
         this.endDate = boardRequestDto.getEndDate();
         this.contents = boardRequestDto.getContents();
     }
-
-    public void addThumbsup(BoardLike boardLike) {
-        this.boardLikes.add(boardLike);
-        boardLike.setBoard(this);
-    }
-
-    public void cancelThumbsup(BoardLike boardLike) {
-        this.boardLikes.remove(boardLike);
-        boardLike.setBoard(null);
-    }
-
     public boolean boardThumbsupByUser(Long userid) {
         for(BoardLike boardLike : this.boardLikes) {
             if(boardLike.getUser().getId().equals(userid)) {

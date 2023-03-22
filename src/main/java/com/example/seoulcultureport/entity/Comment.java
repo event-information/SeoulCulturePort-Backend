@@ -33,12 +33,8 @@ public class Comment extends Timestamped{
     @JoinColumn(name = "Board_ID", nullable = false)
     private Board board;
 
-    @ManyToOne
-    @JoinColumn(name = "user_ID")
-    private User user;
-
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BoardLike> boardLikes = new ArrayList<>();
+    private List<CommentLike> commentLikes = new ArrayList<>();
 
     public void update(CommentRequestDto commentRequestDto) {
 
@@ -52,19 +48,9 @@ public class Comment extends Timestamped{
         this.nickname = user.getNickname();
     }
 
-    public void addThumbsup(BoardLike boardLike) {
-        this.boardLikes.add(boardLike);
-        boardLike.setComment(this);
-    }
-
-    public void cancelThumbsup(BoardLike boardLike) {
-        this.boardLikes.remove(boardLike);
-        boardLike.setComment(null);
-    }
-
     public boolean commentThumbsupByUser(Long userid) {
-        for(BoardLike boardLike : this.boardLikes) {
-            if(boardLike.getUser().getId().equals(userid)) {
+        for(CommentLike commentLike : this.commentLikes) {
+            if(commentLike.getUser().getId().equals(userid)) {
                 return true;
             }
         }
