@@ -7,6 +7,8 @@ import com.example.seoulcultureport.entity.Comment;
 import com.example.seoulcultureport.entity.User;
 import lombok.Getter;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +34,11 @@ public class BoardDetailResponseDto {
     private final List<CommentResponseDto> commentList = new ArrayList<>();
 
     public BoardDetailResponseDto(Board board, User user) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        // 현재 시간을 KST로 설정
+        ZoneId kstZoneId = ZoneId.of("Asia/Seoul");
+        ZonedDateTime now = ZonedDateTime.now(kstZoneId);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(kstZoneId);
         this.id = board.getId();
         this.title = board.getTitle();
         this.image = board.getImage();

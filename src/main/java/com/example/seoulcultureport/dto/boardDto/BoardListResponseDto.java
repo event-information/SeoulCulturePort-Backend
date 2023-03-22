@@ -4,6 +4,8 @@ import com.example.seoulcultureport.entity.Board;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
 @Getter
@@ -22,7 +24,11 @@ public class BoardListResponseDto {
     private int thumbsUpCount;
 
     public BoardListResponseDto(Board board) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        // 현재 시간을 KST로 설정
+        ZoneId kstZoneId = ZoneId.of("Asia/Seoul");
+        ZonedDateTime now = ZonedDateTime.now(kstZoneId);
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(kstZoneId);
         this.id = board.getId();
         this.title = board.getTitle();
         this.image = board.getImage();
