@@ -18,7 +18,7 @@ SeoulCulturePort (서울문화행사 조회 서비스)
 
 <img src="https://img.shields.io/badge/AmazonEC2-FF9900?style=flat-square&logo=AmazonEC2&logoColor=white"/>  <img src="https://img.shields.io/badge/AmazonS3-569A31?style=flat-square&logo=AmazonS3&logoColor=white"/>  <img src="https://img.shields.io/badge/AmazonRDS-527FFF?style=flat-square&logo=AmazonRDS&logoColor=white"/>  <img src="https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=MySQL&logoColor=white"/>  <img src="https://img.shields.io/badge/Ubuntu-E95420?style=flat-square&logo=Ubuntu&logoColor=white"/>
 
-## [📚 프로젝트 팀 노션]([https://real-relish-378.notion.site/9C-W6-3-S-A-c6efadb6c1214d92a67c40b615a69d10](https://www.notion.so/native/5-SA-f4ebf090ac43441f88ff063a6ee7cd78?deepLinkOpenNewTab=true)) 
+## [📋 팀 노션, API 명세서](https://www.notion.so/5-SA-f4ebf090ac43441f88ff063a6ee7cd78?pvs=4)
 
 ## 📲 프로젝트 기능
 1. 메인페이지
