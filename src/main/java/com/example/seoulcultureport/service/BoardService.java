@@ -1,6 +1,8 @@
 package com.example.seoulcultureport.service;
 
-import com.example.seoulcultureport.dto.*;
+import com.example.seoulcultureport.dto.MessageResponseDto;
+import com.example.seoulcultureport.dto.StatusEnum;
+import com.example.seoulcultureport.dto.ThumbsupResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardDetailResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardListResponseDto;
 import com.example.seoulcultureport.dto.boardDto.BoardRequestDto;
@@ -10,8 +12,8 @@ import com.example.seoulcultureport.entity.BoardLike;
 import com.example.seoulcultureport.entity.User;
 import com.example.seoulcultureport.exception.ApiException;
 import com.example.seoulcultureport.exception.ExceptionEnum;
-import com.example.seoulcultureport.repository.BoardRepository;
 import com.example.seoulcultureport.repository.BoardLikeRepository;
+import com.example.seoulcultureport.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,34 +24,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Service @RequiredArgsConstructor
+@Service
+@RequiredArgsConstructor
 public class BoardService {
 
     private final BoardRepository boardRepository;
 
     private final BoardLikeRepository boardLikeRepository;
 
-            //날짜 string 예외처리
-        private void validateBoard(Board board) {
-            String startDateStr = board.getStartDate();
-            String endDateStr = board.getEndDate();
+    //날짜 string 예외처리
+    private void validateBoard(Board board) {
+        String startDateStr = board.getStartDate();
+        String endDateStr = board.getEndDate();
 
-            // startDate와 endDate를 LocalDate 타입으로 변환
-            LocalDate startDate = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-            LocalDate endDate = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        // startDate와 endDate를 LocalDate 타입으로 변환
+        LocalDate startDate = LocalDate.parse(startDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate endDate = LocalDate.parse(endDateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd"));
 
-            // startDate가 endDate보다 날짜가 같거나 빠른 경우 예외 처리
-            if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
-                throw new ApiException(ExceptionEnum.UNAVAILABLE_FOR_LEGAL_REASONS);
-            }
+        // startDate가 endDate보다 날짜가 빠른 경우 예외 처리
+        if (startDate.isAfter(endDate)) {
+            throw new ApiException(ExceptionEnum.UNAVAILABLE_FOR_LEGAL_REASONS);
         }
+    }
 
     // 글생성
     @Transactional
     public MessageResponseDto writeBoard(BoardRequestDto boardRequestDto, User user) {
-            Board board = new Board(boardRequestDto, user);
-            validateBoard(board);
-            boardRepository.saveAndFlush(new Board(boardRequestDto, user));
+        Board board = new Board(boardRequestDto, user);
+        validateBoard(board);
+        boardRepository.saveAndFlush(new Board(boardRequestDto, user));
         return new MessageResponseDto(StatusEnum.OK);
     }
 
@@ -57,7 +60,7 @@ public class BoardService {
     @Transactional
     public MessageResponseDto updateBoard(Long boardId,
                                           BoardRequestDto boardRequestDto,
-                                          User user ) {
+                                          User user) {
 
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
@@ -77,8 +80,8 @@ public class BoardService {
         Board board = boardRepository.findById(boardId).orElseThrow(
                 () -> new ApiException(ExceptionEnum.NOT_FOUND_POST_ALL)
         );
-        if(!board.getUserid().equals(user.getId())) {
-            throw  new ApiException(ExceptionEnum.NOT_FOUND_POST);
+        if (!board.getUserid().equals(user.getId())) {
+            throw new ApiException(ExceptionEnum.NOT_FOUND_POST);
         }
         boardRepository.deleteById(boardId);
         return new MessageResponseDto(StatusEnum.OK);
@@ -114,6 +117,7 @@ public class BoardService {
         }
         return boardSimpleResponseDtos;
     }
+
     @Transactional
     public ThumbsupResponseDto addThumbsup(Long boardId, User user) {
 
